@@ -1,56 +1,46 @@
+import { lsGet, lsSet, lsRemove, loadJSON, resetKeys } from "./utils.js";
 
-// LocalStorage – Estado del Quiz
 
+// Estado del Quiz
 
-// -----------------------------------------------
 function getIndex() {
-  return Number(localStorage.getItem("quiz_index")) || 0;
+  return lsGet("quiz_index", 0);
 }
+
 function setIndex(i) {
-  localStorage.setItem("quiz_index", i);
+  lsSet("quiz_index", i);
 }
 
-
-// -----------------------------------------------
 function getScore() {
-  return Number(localStorage.getItem("quiz_score")) || 0;
-}
-function addScore() {
-  localStorage.setItem("quiz_score", getScore() + 1);
+  return lsGet("quiz_score", 0);
 }
 
+function addScore() {
+  lsSet("quiz_score", getScore() + 1);
+}
 
 function resetQuizState() {
-  localStorage.setItem("quiz_index", 0);
-  localStorage.setItem("quiz_score", 0);
+  lsSet("quiz_index", 0);
+  lsSet("quiz_score", 0);
 }
 
-
-
-// Cargar Preguntas con Fetch
+// Cargar Preguntas
 
 function loadQuestions() {
-  return fetch("./data/quiz.json")
-    .then(res => res.json())
+  return loadJSON("./data/quiz.json")
     .then(data => data.questions || []);
 }
 
-
-// Mostrar la Pregunta Actual
+// Mostrar Pregunta Actual
 
 function showCurrentQuestion(questions) {
-
   const index = getIndex();
   const q = questions[index];
 
   if (!q) {
-    // No hay más preguntas → final
     location.href = "quizEnd.html";
     return;
   }
-
-
-  // DOM - Quiz
 
   const questionText = document.getElementById("questionText");
   const optionsContainer = document.getElementById("optionsContainer");
@@ -60,7 +50,6 @@ function showCurrentQuestion(questions) {
   optionsContainer.innerHTML = "";
   submitBtn.disabled = true;
 
- 
   q.options.forEach((opt, i) => {
     const lbl = document.createElement("label");
     lbl.className = "option-item";
@@ -75,7 +64,6 @@ function showCurrentQuestion(questions) {
     submitBtn.disabled = false;
   });
 
-  // validar + sumar puntaje
   submitBtn.onclick = () => {
     const selected = document.querySelector("input[name='quizOption']:checked");
     if (!selected) return;
@@ -86,23 +74,18 @@ function showCurrentQuestion(questions) {
       addScore();
     }
 
-    // Avanzar a la siguiente pregunta
     setIndex(index + 1);
-
     showCurrentQuestion(questions);
   };
 }
 
-
-// Página Final – Mostrar Puntaje
+// Página Final – Puntaje
 
 function showFinalScreen(questions) {
-
   const score = getScore();
   const total = questions.length;
 
-  document.getElementById("finalScore").textContent =
-    `${score} / ${total}`;
+  document.getElementById("finalScore").textContent = `${score} / ${total}`;
 
   document.getElementById("btnRestart").onclick = () => {
     resetQuizState();
@@ -116,45 +99,30 @@ function showFinalScreen(questions) {
 }
 
 
-// Inicializador automático
+// Inicializador
 
 window.onload = () => {
-
   const page = document.body.dataset.page;
 
-  // ------ Página QUIZ ------
   if (page === "quiz") {
+    if (lsGet("quiz_index") === null) resetQuizState();
 
-    // Si el quiz está sin estado (primera vez)
-    if (localStorage.getItem("quiz_index") === null) {
-      resetQuizState();
-    }
-
-    loadQuestions().then(questions => {
-      showCurrentQuestion(questions);
-    });
+    loadQuestions().then(showCurrentQuestion);
   }
 
-  // ------ Página FINAL ------
   if (page === "end") {
-
-    loadQuestions().then(questions => {
-      showFinalScreen(questions);
-    });
+    loadQuestions().then(showFinalScreen);
   }
 };
 
-// En caso se cierre el navegador
+
+// Limpiar estado al cerrar
 
 window.addEventListener("pagehide", (event) => {
-  
   const page = document.body.dataset.page;
 
   if (page !== "quiz" && page !== "end") return;
+  if (event.persisted) return;
 
-  if (event.persisted ) return;
-
-  localStorage.removeItem("quiz_index");
-  localStorage.removeItem("quiz_score");
-
+  resetKeys(["quiz_index", "quiz_score"]);
 });

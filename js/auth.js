@@ -1,20 +1,21 @@
-// Cargar usuarios registrados (localStorage)
+import { lsGet, lsSet, loadJSON } from "./utils.js";
+
+// Usuarios registrados
+
 function getRegisteredUsers() {
-  const data = localStorage.getItem("registeredUsers");
-  return data ? JSON.parse(data) : [];
+  return lsGet("registeredUsers", []);
 }
 
-// Guardar lista de usuarios registrados
 function saveRegisteredUsers(list) {
-  localStorage.setItem("registeredUsers", JSON.stringify(list));
+  lsSet("registeredUsers", list);
 }
 
-// Guardar usuario logueado
 function setLoggedUser(user) {
-  localStorage.setItem("loggedUser", JSON.stringify(user));
+  lsSet("loggedUser", user);
 }
 
-// LOGIN principal
+// LOGIN
+
 async function runLogin() {
   const form = document.getElementById("loginForm");
   const errorMsg = document.getElementById("loginError");
@@ -25,29 +26,19 @@ async function runLogin() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
-
-
-    // Cargar usuarios semilla
-    const res = await fetch("./data/users.json");
-    const data = await res.json();
+    const data = await loadJSON("./data/users.json");
     const seedUsers = data.users;
 
-    // Cargar usuarios registrados del localStorage
     const registered = getRegisteredUsers();
 
-    // Unir listas
     const allUsers = [...seedUsers, ...registered];
 
-    // Buscar coincidencia
     const foundUser = allUsers.find(
       u => u.username === username && u.password === password
     );
 
     if (foundUser) {
-      // Guardar usuario logueado
       setLoggedUser(foundUser);
-
-      // Redirigir
       location.href = "menu.html";
     } else {
       errorMsg.style.display = "block";
@@ -55,9 +46,8 @@ async function runLogin() {
   };
 }
 
-
-
 // REGISTRO
+
 function runRegister() {
   const form = document.getElementById("registerForm");
   const errorMsg = document.getElementById("registerError");
@@ -72,7 +62,6 @@ function runRegister() {
 
     const registered = getRegisteredUsers();
 
-    // Validar duplicados
     const exists = registered.some(
       u => u.email === email || u.username === username
     );
@@ -92,22 +81,20 @@ function runRegister() {
 }
 
 // Auto-redirección desde index
+
 function autoRedirectFromIndex() {
   if (document.body.dataset.page === "index") {
-    const logged = localStorage.getItem("loggedUser");
-    if (logged) {
-      location.href = "menu.html";
-    }
+    const logged = lsGet("loggedUser");
+    if (logged) location.href = "menu.html";
   }
 }
 
-// CARGA AUTOMÁTICA SEGÚN LA PÁGINA ACTUAL
-window.onload = () => {
+// Inicializador
 
+window.onload = () => {
   const page = document.body.dataset.page;
 
   if (page === "login") runLogin();
   if (page === "register") runRegister();
   if (page === "index") autoRedirectFromIndex();
-
 };
