@@ -1,4 +1,15 @@
-import { lsGet, lsSet, loadJSON, getRegisteredUsers, saveRegisteredUsers, getSeedUsers, getAllUsers } from "./utils.js";
+import { 
+  lsGet, 
+  lsSet,
+  lsRemove,
+  loadJSON,
+  getRegisteredUsers, 
+  saveRegisteredUsers, 
+  getSeedUsers, 
+  getAllUsers,
+  resetKeys 
+} from "./utils.js";
+
 
 
 // LOGIN ----------------------------------------------------------------------------
@@ -77,6 +88,14 @@ function runRegister() {
 export function requireAuth() {
   const logged = lsGet("loggedUser");
   if (!logged) location.href = "login.html";
+}
+
+// Logout limpio y seguro
+
+export function logout() {
+  lsRemove("loggedUser");
+  resetKeys(["quiz_index", "quiz_score"]);
+  location.href = "login.html";
 }
 
 

@@ -21,24 +21,20 @@
             Settings
         </button>
 
-        <button class="btn-secondary" onclick="
-            const keep = localStorage.getItem('registeredUsers');
-            localStorage.clear();
-            if (keep) localStorage.setItem('registeredUsers', keep);
-            location.href='login.html';
-        ">
-            Logout
-        </button>
+        <button class="btn-secondary" onclick="logout()">Logout</button>
+
     </div>
 
 
     <!-- SEGURIDAD -->
     <script type="module">
-        import { requireAuth } from "./js/auth.js";
+        import { requireAuth, logout } from "./js/auth.js";
         document.addEventListener("DOMContentLoaded", () => {
             requireAuth();
         });
+        window.logout = logout;
     </script>
+
 
 </body>
 
