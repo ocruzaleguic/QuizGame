@@ -19,6 +19,15 @@
     <button id="btnFinish" class="btn-secondary">Terminar</button>
   </div>
 
+
+  <!-- SEGURIDAD -->
+    <script type="module">
+        import { requireAuth } from "./js/auth.js";
+        document.addEventListener("DOMContentLoaded", () => {
+            requireAuth();
+        });
+    </script>
+
   <script type="module" src="./js/quiz.js"></script>
 </body>
 </html>

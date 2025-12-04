@@ -13,18 +13,15 @@
     <div class="container">
         <h2>Menú Principal</h2>
 
-        <button class="btn-primary" 
-            onclick="location.href='quiz.html'">
+        <button class="btn-primary" onclick="location.href='quiz.html'">
             Play
         </button>
 
-        <button class="btn-primary" 
-            onclick="location.href='settings.html'">
+        <button class="btn-primary" onclick="location.href='settings.html'">
             Settings
         </button>
 
-        <button class="btn-secondary" 
-            onclick="
+        <button class="btn-secondary" onclick="
             const keep = localStorage.getItem('registeredUsers');
             localStorage.clear();
             if (keep) localStorage.setItem('registeredUsers', keep);
@@ -32,10 +29,16 @@
         ">
             Logout
         </button>
-
-
     </div>
 
+
+    <!-- SEGURIDAD -->
+    <script type="module">
+        import { requireAuth } from "./js/auth.js";
+        document.addEventListener("DOMContentLoaded", () => {
+            requireAuth();
+        });
+    </script>
 
 </body>
 

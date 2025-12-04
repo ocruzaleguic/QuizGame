@@ -1,7 +1,7 @@
-import { lsGet,  lsSet,  loadJSON, getRegisteredUsers, saveRegisteredUsers, getSeedUsers, getAllUsers } from "./utils.js";
+import { lsGet, lsSet, loadJSON, getRegisteredUsers, saveRegisteredUsers, getSeedUsers, getAllUsers } from "./utils.js";
 
 
-// LOGIN
+// LOGIN ----------------------------------------------------------------------------
 
 async function runLogin() {
   const form = document.getElementById("loginForm");
@@ -21,7 +21,8 @@ async function runLogin() {
     );
 
     if (foundUser) {
-      lsSet("loggedUser", foundUser);
+      const { password, ...safeUser } = foundUser;
+      lsSet("loggedUser", safeUser);
       location.href = "menu.html";
     } else {
       errorMsg.style.display = "block";
@@ -30,7 +31,7 @@ async function runLogin() {
 }
 
 
-// REGISTRO
+// REGISTRO -------------------------------------------------------------------------
 
 function runRegister() {
   const form = document.getElementById("registerForm");
@@ -64,6 +65,18 @@ function runRegister() {
 
     location.href = "login.html";
   };
+}
+
+
+
+// FUNCIONES UTILES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+// Proteger las pantallas privadas
+
+export function requireAuth() {
+  const logged = lsGet("loggedUser");
+  if (!logged) location.href = "login.html";
 }
 
 

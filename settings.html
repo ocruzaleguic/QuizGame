@@ -21,5 +21,13 @@
         </button>
     </div>
 
+    <!-- SEGURIDAD -->
+    <script type="module">
+        import { requireAuth } from "./js/auth.js";
+        document.addEventListener("DOMContentLoaded", () => {
+            requireAuth();
+        });
+    </script>
+
 </body>
 </html>
