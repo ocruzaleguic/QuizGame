@@ -1,18 +1,5 @@
-import { lsGet, lsSet, loadJSON } from "./utils.js";
+import { lsGet,  lsSet,  loadJSON, getRegisteredUsers, saveRegisteredUsers, getSeedUsers, getAllUsers } from "./utils.js";
 
-// Usuarios registrados
-
-function getRegisteredUsers() {
-  return lsGet("registeredUsers", []);
-}
-
-function saveRegisteredUsers(list) {
-  lsSet("registeredUsers", list);
-}
-
-function setLoggedUser(user) {
-  lsSet("loggedUser", user);
-}
 
 // LOGIN
 
@@ -26,19 +13,15 @@ async function runLogin() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    const data = await loadJSON("./data/users.json");
-    const seedUsers = data.users;
-
-    const registered = getRegisteredUsers();
-
-    const allUsers = [...seedUsers, ...registered];
+    // ✔️ Ahora cargas todos los usuarios combinados
+    const allUsers = await getAllUsers();
 
     const foundUser = allUsers.find(
       u => u.username === username && u.password === password
     );
 
     if (foundUser) {
-      setLoggedUser(foundUser);
+      lsSet("loggedUser", foundUser);
       location.href = "menu.html";
     } else {
       errorMsg.style.display = "block";
@@ -46,13 +29,14 @@ async function runLogin() {
   };
 }
 
+
 // REGISTRO
 
 function runRegister() {
   const form = document.getElementById("registerForm");
   const errorMsg = document.getElementById("registerError");
 
-  form.onsubmit = (e) => {
+  form.onsubmit = async (e) => {
     e.preventDefault();
 
     const name = document.getElementById("regName").value.trim();
@@ -60,9 +44,11 @@ function runRegister() {
     const username = document.getElementById("regUser").value.trim();
     const password = document.getElementById("regPass").value.trim();
 
-    const registered = getRegisteredUsers();
+    // ✔️ Cargar TODOS los usuarios (semilla + registrados)
+    const allUsers = await getAllUsers();
 
-    const exists = registered.some(
+    // Validación correcta sobre todo el sistema
+    const exists = allUsers.some(
       u => u.email === email || u.username === username
     );
 
@@ -71,14 +57,15 @@ function runRegister() {
       return;
     }
 
-    const newUser = { name, email, username, password };
-
-    registered.push(newUser);
+    // Añadir SOLO a los registrados (localStorage)
+    const registered = getRegisteredUsers();
+    registered.push({ name, email, username, password });
     saveRegisteredUsers(registered);
 
     location.href = "login.html";
   };
 }
+
 
 // Auto-redirección desde index
 
