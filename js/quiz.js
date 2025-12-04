@@ -1,5 +1,7 @@
 import { lsGet, lsSet, lsRemove, loadJSON, resetKeys } from "./utils.js";
 
+let optionsContainer = null;
+let submitBtn = null;
 
 // Estado del Quiz
 
@@ -31,6 +33,17 @@ function loadQuestions() {
     .then(data => data.questions || []);
 }
 
+// Función para inicializar el listener
+function initQuizPage() {
+  optionsContainer = document.getElementById("optionsContainer");
+  submitBtn = document.getElementById("submitBtn");
+
+  optionsContainer.addEventListener("change", () => {
+    submitBtn.disabled = false;
+  });
+}
+
+
 // Mostrar Pregunta Actual
 
 function showCurrentQuestion(questions) {
@@ -43,8 +56,6 @@ function showCurrentQuestion(questions) {
   }
 
   const questionText = document.getElementById("questionText");
-  const optionsContainer = document.getElementById("optionsContainer");
-  const submitBtn = document.getElementById("submitBtn");
 
   questionText.textContent = q.question;
   optionsContainer.innerHTML = "";
@@ -58,10 +69,6 @@ function showCurrentQuestion(questions) {
       <span>${opt}</span>
     `;
     optionsContainer.appendChild(lbl);
-  });
-
-  optionsContainer.addEventListener("change", () => {
-    submitBtn.disabled = false;
   });
 
   submitBtn.onclick = () => {
@@ -98,7 +105,6 @@ function showFinalScreen(questions) {
   };
 }
 
-
 // Inicializador
 
 window.onload = () => {
@@ -107,6 +113,7 @@ window.onload = () => {
   if (page === "quiz") {
     if (lsGet("quiz_index") === null) resetQuizState();
 
+    initQuizPage();  // El listener NO se repetirá
     loadQuestions().then(showCurrentQuestion);
   }
 
@@ -114,7 +121,6 @@ window.onload = () => {
     loadQuestions().then(showFinalScreen);
   }
 };
-
 
 // Limpiar estado al cerrar
 
