@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body data-page="menu">
+
+    <div class="container">
+        <h2>Menú Principal</h2>
+
+        <button class="btn-primary" 
+            onclick="location.href='quiz.html'">
+            Play
+        </button>
+
+        <button class="btn-primary" 
+            onclick="location.href='settings.html'">
+            Settings
+        </button>
+
+        <button class="btn-secondary" 
+            onclick="
+            const keep = localStorage.getItem('registeredUsers');
+            localStorage.clear();
+            if (keep) localStorage.setItem('registeredUsers', keep);
+            location.href='login.html';
+        ">
+            Logout
+        </button>
+
+
+    </div>
+
+
+</body>
+
+</html>

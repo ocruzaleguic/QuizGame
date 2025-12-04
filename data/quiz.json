@@ -1,0 +1,37 @@
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "¿Cuál es el resultado de 2 + 2?",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "22"
+      ],
+      "correctIndex": 1
+    },
+    {
+      "id": 2,
+      "question": "¿Cuál de las siguientes es un lenguaje de programación?",
+      "options": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Excel"
+      ],
+      "correctIndex": 2
+    },
+    {
+      "id": 3,
+      "question": "¿Qué significa CSS?",
+      "options": [
+        "Creative Style Sheets",
+        "Cascading Style Sheets",
+        "Computer Style System",
+        "Colorful Style Syntax"
+      ],
+      "correctIndex": 1
+    }
+  ]
+}
