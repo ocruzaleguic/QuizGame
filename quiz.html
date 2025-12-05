@@ -22,12 +22,13 @@
 
 
   <!-- SEGURIDAD -->
-    <script type="module">
-        import { requireAuth } from "./js/auth.js";
-        document.addEventListener("DOMContentLoaded", () => {
-            requireAuth();
-        });
-    </script>
+  <script type="module">
+    import { requireAuth } from "./js/utils.js";
+    document.addEventListener("DOMContentLoaded", () => {
+      requireAuth();
+    });
+  </script>
+
 
 
   <script type="module" src="./js/quiz.js"></script>

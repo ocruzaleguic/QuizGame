@@ -6,17 +6,14 @@ requireAuth();
 const areasContainer = document.getElementById("areasContainer");
 const continueBtn = document.getElementById("continueBtn");
 
-let selectedArea = lsGet("selected_area");
+let selectedArea = lsGet("selected_area");  // Puede existir por sesiones previas
 
-// Inicializar página
 init();
 
 async function init() {
   const data = await loadJSON("./data/quiz.json");
 
-
   // Render de áreas
-
   data.areas.forEach(area => {
     const div = document.createElement("div");
     div.className = "area-item";
@@ -31,10 +28,8 @@ async function init() {
 
     areasContainer.appendChild(div);
   });
-  
 
-  // Habilitar botón si ya hay una seleccionada
-
+  // Habilitar botón si ya había algo guardado
   if (selectedArea) {
     continueBtn.disabled = false;
   }
@@ -44,12 +39,13 @@ async function init() {
   radios.forEach(radio => {
     radio.addEventListener("change", e => {
       selectedArea = e.target.value;
-      lsSet("selected_area", selectedArea);
-      continueBtn.disabled = false;
+      continueBtn.disabled = false;   // Solo habilitar el botón
     });
   });
 
   continueBtn.addEventListener("click", () => {
+    if (!selectedArea) return;
+    lsSet("selected_area", selectedArea);
     location.href = "./menu.html";
   });
 }

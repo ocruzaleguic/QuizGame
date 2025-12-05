@@ -28,12 +28,16 @@
 
     <!-- SEGURIDAD -->
     <script type="module">
-        import { requireAuth, logout } from "./js/auth.js";
+        import { requireAuth } from "./js/utils.js";
+        import { logout } from "./js/auth.js";
         document.addEventListener("DOMContentLoaded", () => {
             requireAuth();
         });
+
+        // Exponer logout al global para uso en onclick
         window.logout = logout;
     </script>
+
 
 
 </body>

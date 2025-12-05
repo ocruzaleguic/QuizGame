@@ -80,13 +80,17 @@ function showCurrentQuestion(questions) {
   submitBtn.disabled = true;
 
   q.options.forEach((opt, i) => {
-    const lbl = document.createElement("label");
-    lbl.className = "option-item";
-    lbl.innerHTML = `
-      <input type="radio" name="quizOption" value="${i}">
-      <span>${opt}</span>
+    const div = document.createElement("div");
+    div.className = "quiz-option"; // NUEVO ESTILO
+
+    div.innerHTML = `
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;width:100%;">
+        <input type="radio" name="quizOption" value="${i}">
+        <span>${opt}</span>
+      </label>
     `;
-    optionsContainer.appendChild(lbl);
+
+    optionsContainer.appendChild(div);
   });
 
   submitBtn.onclick = () => {
@@ -103,6 +107,7 @@ function showCurrentQuestion(questions) {
     showCurrentQuestion(questions);
   };
 }
+
 
 // Página Final – Puntaje
 

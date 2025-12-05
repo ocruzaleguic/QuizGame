@@ -32,9 +32,9 @@ label {
 }
 
 input {
-    width: 100%;
+    width: 95%;
     padding: 8px;
-    margin-top: 5px;
+    margin-top: 5px;  
     border: 1px solid #ccc;
     border-radius: 6px;
 }
@@ -62,6 +62,8 @@ button:disabled {
 }
 
 
+/* -- Opciones del Area -- */
+
 .area-list {
     margin-top: 15px;
     display: flex;
@@ -86,6 +88,30 @@ button:disabled {
 }
 
 .area-item input[type="radio"] {
+    width: auto;
+    margin: 0;
+}
+
+/* -- Opciones del Quiz -- */
+
+.quiz-option {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f3ea;
+    transition: 0.2s;
+    margin-bottom: 10px;
+}
+
+.quiz-option:hover {
+    background: #f3b66f;
+}
+
+.quiz-option input[type="radio"] {
     width: auto;
     margin: 0;
 }

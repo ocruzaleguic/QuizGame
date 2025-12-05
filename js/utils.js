@@ -63,11 +63,26 @@ export function requireArea() {
   }
 }
 
-// Verifica si hay usuario logueado
+// Verifica si hay usuario logueado Y si ya eligió un área
 export function requireAuth() {
-  const user = lsGet("loggedUser");
+  const logged = lsGet("loggedUser");
 
-  if (!user) {
-    window.location.replace("./login.html");
+  // Si no está logueado → enviar a login
+  if (!logged) {
+    window.location.replace("login.html");
+    return;
+  }
+
+  const page = document.body.dataset.page;
+
+  // Estas páginas sí deben permitir acceso sin área:
+  if (page === "login" || page === "seleccion-area") {
+    return;
+  }
+
+  // Si no tiene área → enviar a seleccion-area
+  if (!localStorage.getItem("selected_area")) {
+    window.location.replace("seleccion-area.html");
   }
 }
+

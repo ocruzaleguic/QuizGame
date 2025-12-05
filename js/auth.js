@@ -83,18 +83,11 @@ function runRegister() {
 // FUNCIONES UTILES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-// Proteger las pantallas privadas
-
-export function requireAuth() {
-  const logged = lsGet("loggedUser");
-  if (!logged) location.href = "login.html";
-}
-
 // Logout limpio y seguro
 
 export function logout() {
   lsRemove("loggedUser");
-  resetKeys(["quiz_index", "quiz_score"]);
+  resetKeys(["quiz_index", "quiz_score", "selected_area"]);
   location.href = "login.html";
 }
 
