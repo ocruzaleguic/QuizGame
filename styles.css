@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: #ebdcc0;
+    background: #e9ebc0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -52,6 +52,40 @@ button {
 }
 
 button:hover {
-    background: #c99035;
+    background: #ffb642;
 }
 
+button:disabled {
+    background: #d3d3d3;
+    color: #888;          
+    cursor: not-allowed;  
+}
+
+
+.area-list {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.area-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f3ea;
+    transition: 0.2s;
+}
+
+.area-item:hover {
+    background: #f3b66f;
+}
+
+.area-item input[type="radio"] {
+    width: auto;
+    margin: 0;
+}

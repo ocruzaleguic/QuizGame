@@ -1,4 +1,13 @@
+
 import { lsGet, lsSet, lsRemove, loadJSON, resetKeys } from "./utils.js";
+
+// Redirección sin doble renderización
+
+if (!localStorage.getItem("selected_area")) {
+  window.location.replace("seleccion-area.html");
+}
+
+// -----------------------------------
 
 let optionsContainer = null;
 let submitBtn = null;
@@ -31,12 +40,6 @@ function resetQuizState() {
 function loadQuestions() {
   const selectedArea = lsGet("selected_area");
 
-  // Si NO hay área seleccionada → redirigir a seleccion-area
-  if (!selectedArea) {
-    location.href = "seleccion-area.html";
-    return Promise.resolve([]);
-  }
-
   return loadJSON("./data/quiz.json")
     .then(data => {
       const area = data.areas.find(a => a.id === selectedArea);
@@ -49,7 +52,6 @@ function loadQuestions() {
     });
 }
 
-
 // Función para inicializar el listener
 function initQuizPage() {
   optionsContainer = document.getElementById("optionsContainer");
@@ -59,7 +61,6 @@ function initQuizPage() {
     submitBtn.disabled = false;
   });
 }
-
 
 // Mostrar Pregunta Actual
 
@@ -129,18 +130,11 @@ window.onload = () => {
 
   if (page === "quiz") {
 
-  // Si NO hay área seleccionada  redirigir
-  if (!lsGet("selected_area")) {
-    location.href = "seleccion-area.html";
-    return;
+    if (lsGet("quiz_index") === null) resetQuizState();
+
+    initQuizPage();
+    loadQuestions().then(showCurrentQuestion);
   }
-
-  if (lsGet("quiz_index") === null) resetQuizState();
-
-  initQuizPage();
-  loadQuestions().then(showCurrentQuestion);
-}
-
 
   if (page === "end") {
     loadQuestions().then(showFinalScreen);

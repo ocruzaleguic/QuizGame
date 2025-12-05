@@ -50,3 +50,24 @@ export async function getAllUsers() {
   const reg = getRegisteredUsers();
   return [...seed, ...reg];
 }
+
+// Saber si existe una key en localStorage
+export function lsHas(key) {
+  return localStorage.getItem(key) !== null;
+}
+
+// Redirigir si no hay un área seleccionada
+export function requireArea() {
+  if (!lsHas("selected_area")) {
+    window.location.replace("seleccion-area.html");
+  }
+}
+
+// Verifica si hay usuario logueado
+export function requireAuth() {
+  const user = lsGet("loggedUser");
+
+  if (!user) {
+    window.location.replace("./login.html");
+  }
+}
