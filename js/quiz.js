@@ -29,9 +29,26 @@ function resetQuizState() {
 // Cargar Preguntas
 
 function loadQuestions() {
+  const selectedArea = lsGet("selected_area");
+
+  // Si NO hay área seleccionada → redirigir a seleccion-area
+  if (!selectedArea) {
+    location.href = "seleccion-area.html";
+    return Promise.resolve([]);
+  }
+
   return loadJSON("./data/quiz.json")
-    .then(data => data.questions || []);
+    .then(data => {
+      const area = data.areas.find(a => a.id === selectedArea);
+      if (!area) {
+        alert("Área inválida o sin preguntas.");
+        location.href = "seleccion-area.html";
+        return [];
+      }
+      return area.questions;
+    });
 }
+
 
 // Función para inicializar el listener
 function initQuizPage() {
@@ -111,11 +128,19 @@ window.onload = () => {
   const page = document.body.dataset.page;
 
   if (page === "quiz") {
-    if (lsGet("quiz_index") === null) resetQuizState();
 
-    initQuizPage();  // El listener NO se repetirá
-    loadQuestions().then(showCurrentQuestion);
+  // Si NO hay área seleccionada  redirigir
+  if (!lsGet("selected_area")) {
+    location.href = "seleccion-area.html";
+    return;
   }
+
+  if (lsGet("quiz_index") === null) resetQuizState();
+
+  initQuizPage();
+  loadQuestions().then(showCurrentQuestion);
+}
+
 
   if (page === "end") {
     loadQuestions().then(showFinalScreen);

@@ -1,37 +1,160 @@
 {
-  "questions": [
+  "areas": [
     {
-      "id": 1,
-      "question": "¿Cuál es el resultado de 2 + 2?",
-      "options": [
-        "3",
-        "4",
-        "5",
-        "22"
-      ],
-      "correctIndex": 1
+      "id": "proyectos",
+      "name": "Gestión de Proyectos",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuál es el propósito principal del acta de constitución del proyecto?",
+          "options": [
+            "Definir en detalle el cronograma del proyecto",
+            "Autorizar formalmente el proyecto y al director del proyecto",
+            "Estimar los costos de cada paquete de trabajo",
+            "Registrar todas las lecciones aprendidas"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": 2,
+          "question": "Según las buenas prácticas de gestión de proyectos, ¿cuál es la mejor opción para gestionar los cambios?",
+          "options": [
+            "Aceptar todos los cambios solicitados para mantener satisfechos a los interesados",
+            "Registrar y evaluar los cambios a través de un proceso formal de control integrado de cambios",
+            "Permitir cambios solo si no afectan el alcance",
+            "Evitar cambios en cualquier etapa del proyecto"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": 3,
+          "question": "¿En qué proceso se crea la EDT/Estructura de Desglose del Trabajo (WBS)?",
+          "options": [
+            "Definir las actividades",
+            "Crear la EDT",
+            "Secuenciar las actividades",
+            "Controlar el alcance"
+          ],
+          "correctIndex": 1
+        }
+      ]
     },
     {
-      "id": 2,
-      "question": "¿Cuál de las siguientes es un lenguaje de programación?",
-      "options": [
-        "HTML",
-        "CSS",
-        "JavaScript",
-        "Excel"
-      ],
-      "correctIndex": 2
+      "id": "calidad",
+      "name": "Calidad",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuál es el objetivo principal de la gestión de la calidad en un proyecto?",
+          "options": [
+            "Asegurar que el proyecto termine antes de la fecha prevista",
+            "Garantizar que los entregables cumplan con los requisitos y estándares acordados",
+            "Reducir el costo del proyecto al mínimo posible",
+            "Incrementar el alcance del proyecto para añadir más valor"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": 2,
+          "question": "Una inspección, revisión o walkthrough es un ejemplo de:",
+          "options": [
+            "Herramienta de planificación de la calidad",
+            "Herramienta de control de calidad",
+            "Técnica de análisis de riesgos",
+            "Actividad de cierre de proyecto"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": 3,
+          "question": "El costo de la mala calidad incluye:",
+          "options": [
+            "Capacitación del equipo",
+            "Prevención y auditorías internas",
+            "Retrabajo, desperdicios y garantías",
+            "Planificación de la calidad"
+          ],
+          "correctIndex": 2
+        }
+      ]
     },
     {
-      "id": 3,
-      "question": "¿Qué significa CSS?",
-      "options": [
-        "Creative Style Sheets",
-        "Cascading Style Sheets",
-        "Computer Style System",
-        "Colorful Style Syntax"
-      ],
-      "correctIndex": 1
+      "id": "finanzas",
+      "name": "Finanzas del Proyecto",
+      "questions": [
+        {
+          "id": 1,
+          "question": "El Valor Ganado (EV) se define como:",
+          "options": [
+            "El costo real incurrido en el proyecto hasta la fecha",
+            "El presupuesto autorizado para el trabajo realmente completado",
+            "La diferencia entre el presupuesto total y el costo real",
+            "El costo estimado para terminar el proyecto"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": 2,
+          "question": "Si el CPI (Índice de desempeño de costos) es menor que 1, esto significa que:",
+          "options": [
+            "El proyecto está por debajo del presupuesto",
+            "El proyecto está exactamente en el presupuesto",
+            "El proyecto está por encima del presupuesto",
+            "El proyecto terminó con sobrecosto pero dentro del plazo"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": 3,
+          "question": "¿Qué técnica se utiliza comúnmente para evaluar la viabilidad financiera de un proyecto?",
+          "options": [
+            "Diagrama de Pareto",
+            "Valor Presente Neto (VPN/NPV)",
+            "Matriz de probabilidad e impacto",
+            "Análisis de causa raíz"
+          ],
+          "correctIndex": 1
+        }
+      ]
+    },
+    {
+      "id": "gestion_ambiental",
+      "name": "Gestión Ambiental",
+      "questions": [
+        {
+          "id": 1,
+          "question": "¿Cuál de las siguientes opciones representa mejor la gestión ambiental en proyectos?",
+          "options": [
+            "Identificar únicamente los riesgos financieros",
+            "Cumplir solo con las leyes locales relacionadas con seguridad física",
+            "Identificar, evaluar y gestionar los impactos ambientales del proyecto",
+            "Reducir el tiempo de ejecución del proyecto sin importar los impactos"
+          ],
+          "correctIndex": 2
+        },
+        {
+          "id": 2,
+          "question": "Un plan de manejo ambiental suele incluir:",
+          "options": [
+            "Solo el cronograma detallado del proyecto",
+            "Medidas de mitigación, monitoreo y seguimiento de impactos",
+            "El listado de interesados del proyecto",
+            "El organigrama del equipo de proyecto"
+          ],
+          "correctIndex": 1
+        },
+        {
+          "id": 3,
+          "question": "¿Qué es un impacto ambiental significativo en el contexto de un proyecto?",
+          "options": [
+            "Un impacto que siempre es positivo",
+            "Un impacto que solo afecta el presupuesto",
+            "Un cambio en el medio ambiente que puede ser relevante para las partes interesadas o la legislación",
+            "Una variación menor en el cronograma del proyecto"
+          ],
+          "correctIndex": 2
+        }
+      ]
     }
   ]
 }
