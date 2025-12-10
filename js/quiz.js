@@ -1,8 +1,7 @@
 
-import { lsGet, lsSet, lsRemove, loadJSON, resetKeys } from "./utils.js";
+import { lsGet, lsSet, lsRemove, loadJSON, resetKeys, addXP } from "./utils.js";
 
 // Redirección sin doble renderización
-
 if (!localStorage.getItem("selected_area")) {
   window.location.replace("seleccion-area.html");
 }
@@ -10,7 +9,6 @@ if (!localStorage.getItem("selected_area")) {
 // QUIZ ----------------------------------------------------------------------
 
 // Estado del Quiz en localStorage
-
 function getIndex() {
   return lsGet("quiz_index", 0);
 }
@@ -49,7 +47,7 @@ function loadQuestions() {
     });
 }
 
-// Inicializar el listeners
+// Inicializar los listeners
 
 let optionsContainer = null;
 let submitBtn = null;
@@ -96,7 +94,6 @@ function showCurrentQuestion(questions) {
   });
 
   submitBtn.onclick = () => submitAnswer(q, questions);
-
 }
 
 function submitAnswer(q, questions) {
@@ -108,10 +105,12 @@ function submitAnswer(q, questions) {
 
   const optionDivs = document.querySelectorAll("#optionsContainer .quiz-option");
   const radios = document.querySelectorAll("input[name='quizOption']");
-  
+
   // Feedback visual
+
   if (selectedIndex === correctIndex) {
     addScore();
+    addXP(10); // <-- XP por respuesta correcta
     optionDivs[selectedIndex].classList.add("correct");
   } else {
     optionDivs[selectedIndex].classList.add("incorrect");
@@ -119,17 +118,17 @@ function submitAnswer(q, questions) {
   }
 
   // Desactivar UI mientras dura la retroalimentación
+
   submitBtn.disabled = true;
   radios.forEach(r => r.disabled = true);
-  
 
-  // Espera de 1.5 segundos
+  // Espera de 1.5 segundos antes de avanzar
+
   setTimeout(() => {
     setIndex(getIndex() + 1);
     showCurrentQuestion(questions);
   }, 1500);
 }
-
 
 
 // QUIZ END -------------------------------------------------------------------

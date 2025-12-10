@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background: #e9ebc0;
+    background: #ebddc0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -124,6 +124,6 @@ button:disabled {
 
 .incorrect {
     border: 2px solid rgb(231, 76, 60); 
-    background-color: rgba(231, 76, 60, 0.15);
+    background-color: rgba(231, 76, 60, 0.15 );
     transition: background-color 1s ease;
 }
