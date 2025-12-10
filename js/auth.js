@@ -24,7 +24,7 @@ async function runLogin() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // ✔️ Ahora cargas todos los usuarios combinados
+    // Carga de los usuarios combinados
     const allUsers = await getAllUsers();
 
     const foundUser = allUsers.find(
@@ -56,7 +56,7 @@ function runRegister() {
     const username = document.getElementById("regUser").value.trim();
     const password = document.getElementById("regPass").value.trim();
 
-    // ✔️ Cargar TODOS los usuarios (semilla + registrados)
+    // Cargar TODOS los usuarios (semilla + registrados)
     const allUsers = await getAllUsers();
 
     // Validación correcta sobre todo el sistema

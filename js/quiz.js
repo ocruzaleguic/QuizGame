@@ -7,12 +7,9 @@ if (!localStorage.getItem("selected_area")) {
   window.location.replace("seleccion-area.html");
 }
 
-// -----------------------------------
+// QUIZ ----------------------------------------------------------------------
 
-let optionsContainer = null;
-let submitBtn = null;
-
-// Estado del Quiz
+// Estado del Quiz en localStorage
 
 function getIndex() {
   return lsGet("quiz_index", 0);
@@ -52,7 +49,11 @@ function loadQuestions() {
     });
 }
 
-// Función para inicializar el listener
+// Inicializar el listeners
+
+let optionsContainer = null;
+let submitBtn = null;
+
 function initQuizPage() {
   optionsContainer = document.getElementById("optionsContainer");
   submitBtn = document.getElementById("submitBtn");
@@ -81,7 +82,7 @@ function showCurrentQuestion(questions) {
 
   q.options.forEach((opt, i) => {
     const div = document.createElement("div");
-    div.className = "quiz-option"; // NUEVO ESTILO
+    div.className = "quiz-option";
 
     div.innerHTML = `
       <label style="display:flex;align-items:center;gap:10px;cursor:pointer;width:100%;">
@@ -109,7 +110,7 @@ function showCurrentQuestion(questions) {
 }
 
 
-// Página Final – Puntaje
+// QUIZ END -------------------------------------------------------------------
 
 function showFinalScreen(questions) {
   const score = getScore();
