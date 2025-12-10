@@ -115,3 +115,15 @@ button:disabled {
     width: auto;
     margin: 0;
 }
+
+.correct {
+    border: 2px solid rgb(46, 204, 113); 
+    background-color: rgba(46, 204, 113, 0.15);
+    transition: background-color 1s ease;
+}
+
+.incorrect {
+    border: 2px solid rgb(231, 76, 60); 
+    background-color: rgba(231, 76, 60, 0.15);
+    transition: background-color 1s ease;
+}

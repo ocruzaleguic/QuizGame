@@ -63,6 +63,7 @@ function initQuizPage() {
   });
 }
 
+
 // Mostrar Pregunta Actual
 
 function showCurrentQuestion(questions) {
@@ -94,20 +95,41 @@ function showCurrentQuestion(questions) {
     optionsContainer.appendChild(div);
   });
 
-  submitBtn.onclick = () => {
-    const selected = document.querySelector("input[name='quizOption']:checked");
-    if (!selected) return;
+  submitBtn.onclick = () => submitAnswer(q, questions);
 
-    const selectedIndex = Number(selected.value);
-
-    if (selectedIndex === q.correctIndex) {
-      addScore();
-    }
-
-    setIndex(index + 1);
-    showCurrentQuestion(questions);
-  };
 }
+
+function submitAnswer(q, questions) {
+  const selected = document.querySelector("input[name='quizOption']:checked");
+  if (!selected) return;
+
+  const selectedIndex = Number(selected.value);
+  const correctIndex = q.correctIndex;
+
+  const optionDivs = document.querySelectorAll("#optionsContainer .quiz-option");
+  const radios = document.querySelectorAll("input[name='quizOption']");
+  
+  // Feedback visual
+  if (selectedIndex === correctIndex) {
+    addScore();
+    optionDivs[selectedIndex].classList.add("correct");
+  } else {
+    optionDivs[selectedIndex].classList.add("incorrect");
+    optionDivs[correctIndex].classList.add("correct");
+  }
+
+  // Desactivar UI mientras dura la retroalimentación
+  submitBtn.disabled = true;
+  radios.forEach(r => r.disabled = true);
+  
+
+  // Espera de 1.5 segundos
+  setTimeout(() => {
+    setIndex(getIndex() + 1);
+    showCurrentQuestion(questions);
+  }, 1500);
+}
+
 
 
 // QUIZ END -------------------------------------------------------------------
