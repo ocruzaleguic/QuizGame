@@ -32,9 +32,9 @@
         - Quiz de preguntas basado en un archivo JSON.
         - Cálculo de puntaje.
         - Pantalla/popup final con opciones de:
-        - Reiniciar el quiz
-        - Terminar (volver al Menú)
-        - Logout del usuario.
+            Reiniciar el quiz
+            Terminar (volver al Menú)
+            Logout del usuario.
 
 
     ❌ No incluye
@@ -65,6 +65,7 @@
         Accede a:
         Menú principal
         Quiz
+        Selección de Area
         Settings (placeholder)
         Logout
 
@@ -75,8 +76,10 @@
 
     4.1 Inicio de la aplicación
         
-        Si el usuario NO está autenticado, debe ver la pantalla de Login.
-        Si el usuario SÍ está autenticado, debe ver el Menú principal.
+        Si el usuario NO está autenticado: debe ver la pantalla de Login
+        Si el usuario SÍ está autenticado:
+            Si no tiene Área seleccionada, debe ver la Selcción de Area
+            Si SÍ tiene Área seleccionada, debe ver el Menú principal
 
 
     4.2 Login
@@ -85,33 +88,32 @@
 
         Validar sus datos contra:
 
-        - El archivo users.json (usuarios semilla).
-        - Los usuarios registrados previamente en localStorage.
-        - Ver un mensaje si los datos son incorrectos.
-        - Acceder a la pantalla de Registro mediante un enlace.
+        - El archivo users.json (usuarios semilla)
+        - Los usuarios registrados previamente en localStorage
+        - Ver un mensaje si los datos son incorrectos
+        - Acceder a la pantalla de Registro mediante un enlace
         - Si los datos son válidos:
-        - Se debe guardar en localStorage que el usuario está autenticado.
-        - El usuario es llevado al Menú principal.
+        - Se debe guardar en localStorage que el usuario está autenticado
+        - El usuario es llevado al Menú principal
 
 
     4.3 Registro
 
         El usuario puede:
 
-        Ingresar username, email y password.
-        Verificar que el username no exista:
-        Ni en users.json
-        Ni en los usuarios de localStorage
-        Si el registro es válido:
-        El usuario se almacena en localStorage.
+            Ingresar username, email y password
+            Verificar que el username no exista:
+                Ni en users.json
+                Ni en los usuarios de localStorage
+            Si el registro es válido:
+                El usuario se almacena en localStorage
 
 
         El sistema puede:
 
-
-        Iniciar sesión automáticamente o
-        Redirigir al Login (a elección del practicante).
-        Debe existir un enlace para volver al Login.
+            Iniciar sesión automáticamente o
+            Redirigir al Login (a elección del practicante)
+            Debe existir un enlace para volver al Login
 
 
     4.4 Menú Principal
@@ -119,48 +121,48 @@
         El menú contiene:
 
         - Botón Play
-            Inicia el Quiz.
+            Inicia el Quiz
 
         - Botón Settings
-            Lleva a una pantalla simple (placeholder) que no contiene funcionalidad aún.
+            Lleva a una pantalla simple (placeholder) que no contiene funcionalidad aún
 
         - Botón Logout
-            Borra estado de autenticación.
-            Redirige al Login.
+            Borra estado de autenticación
+            Redirige al Login
 
 
         Si un usuario intenta entrar al Menú sin estar autenticado:
-        Debe redirigirse a Login automáticamente.
+        Debe redirigirse a Login automáticamente
 
 
     4.5 Settings (placeholder)
 
         Debe mostrar:
 
-        - Un mensaje informativo indicando que la configuración se añadirá más adelante.
-        - Un botón de “Volver” que regrese al Menú.
-        - No tiene funcionalidades adicionales.
+        - Un mensaje informativo indicando que la configuración se añadirá más adelante
+        - Un botón de “Volver” que regrese al Menú
+        - No tiene funcionalidades adicionales
 
 
     4.6 Quiz
 
         El sistema debe:
 
-        - Cargar las preguntas desde quiz.json.
-        - Mostrar una pregunta a la vez.
-        - Mostrar opciones de respuesta.
-        - Permitir seleccionar solo una respuesta.
-        - Avanzar a la siguiente pregunta después de responder.
-        - Llevar puntaje basado en respuestas correctas.
+        - Cargar las preguntas desde quiz.json
+        - Mostrar una pregunta a la vez
+        - Mostrar opciones de respuesta
+        - Permitir seleccionar solo una respuesta
+        - Avanzar a la siguiente pregunta después de responder
+        - Llevar puntaje basado en respuestas correctas
 
 
     4.7 Final del Quiz
 
         - Cuando se terminan todas las preguntas:
-        - Debe mostrarse el puntaje final del usuario.
+        - Debe mostrarse el puntaje final del usuario
         - Debe visualizarse un popup o pantalla final con:
-        - Reiniciar → volver a la primera pregunta y puntaje en 0.
-        - Terminar → regresar al Menú principal.
+        - Reiniciar → volver a la primera pregunta y puntaje en 0
+        - Terminar → regresar al Menú principal
 
 
 
@@ -224,8 +226,8 @@
     ├── index.html
     ├── styles.css
     ├── /js
+    │   ├── areaselect.js
     │   ├── auth.js
-    │   ├── menu.js
     │   ├── quiz.js
     │   └── utils.js
     │
@@ -234,6 +236,6 @@
     │   └── quiz.json
     │
     └── /docs
-        ├── 01_Requisitos_Funcionales.md
-        └── 02_Guia_Tecnica_Con_JSONs.md
+        ├── Requisitos_Funcionales.md
+        └── readme.md
         └── documentacionDeVersiones.md

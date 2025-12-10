@@ -1,6 +1,7 @@
 import { lsGet, lsSet, loadJSON, requireAuth } from "./utils.js";
 
 // No permitir entrar a esta página sin login
+
 requireAuth();
 
 const areasContainer = document.getElementById("areasContainer");
