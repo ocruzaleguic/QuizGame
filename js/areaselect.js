@@ -15,19 +15,18 @@ async function init() {
 
   // Render de áreas
   data.areas.forEach(area => {
-    const div = document.createElement("div");
-    div.className = "area-item";
+  const label = document.createElement("label");
+  label.className = "area-item";
 
-    div.innerHTML = `
-      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
-        <input type="radio" name="area" value="${area.id}" 
-            ${selectedArea === area.id ? "checked" : ""}>
-        ${area.name}
-      </label>
-    `;
+  label.innerHTML = `
+    <input type="radio" name="area" value="${area.id}"
+      ${selectedArea === area.id ? "checked" : ""}>
+    ${area.name}
+  `;
 
-    areasContainer.appendChild(div);
-  });
+  areasContainer.appendChild(label);
+});
+
 
   // Habilitar botón si ya había algo guardado
   if (selectedArea) {

@@ -83,7 +83,7 @@ function runRegister() {
 // FUNCIONES UTILES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-// Logout limpio y seguro
+// Logout limpio
 
 export function logout() {
   lsRemove("loggedUser");
