@@ -133,13 +133,22 @@ export function generateUserId() {
 
 export function ensureGamification(user) {
   if (!user) return user;
+
   if (!user.gamification || typeof user.gamification !== "object") {
-    user.gamification = { XP: 0 };
+    user.gamification = { XP: 0, achievements: [] };
     return user;
   }
+
+  // XP
   if (user.gamification.XP == null) {
     user.gamification.XP = 0;
   }
+
+  // Achievements
+  if (!Array.isArray(user.gamification.achievements)) {
+    user.gamification.achievements = [];
+  }
+
   return user;
 }
 
