@@ -80,18 +80,16 @@ function showCurrentQuestion(questions) {
   submitBtn.disabled = true;
 
   q.options.forEach((opt, i) => {
-    const div = document.createElement("div");
-    div.className = "quiz-option";
+  const label = document.createElement("label");
+  label.className = "quiz-option";
+  label.innerHTML = `
+    <input type="radio" name="quizOption" value="${i}">
+    <span>${opt}</span>
+  `;
 
-    div.innerHTML = `
-      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;width:100%;">
-        <input type="radio" name="quizOption" value="${i}">
-        <span>${opt}</span>
-      </label>
-    `;
+  optionsContainer.appendChild(label);
+});
 
-    optionsContainer.appendChild(div);
-  });
 
   submitBtn.onclick = () => submitAnswer(q, questions);
 }
