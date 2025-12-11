@@ -1,4 +1,3 @@
-
 // LOCALSTORAGE ----------------------------------------------------
 
 // Get & Set genéricos
@@ -38,8 +37,7 @@ export async function loadJSON(path) {
 
 // USUARIOS --------------------------------------------------------
 
-// HACER USUARIOS PERSISTENTES
-
+// Usuarios registrados
 export function getRegisteredUsers() {
   return lsGet("registeredUsers", []);
 }
@@ -48,36 +46,45 @@ export function saveRegisteredUsers(list) {
   lsSet("registeredUsers", list);
 }
 
-// Semilla + combinados
-
+// Usuarios semilla
 export async function getSeedUsers() {
   const data = await loadJSON("./data/users.json");
-  // Cada usuario semilla tiene gamificación (se genera una copia)
-  return data.users.map(u => ({ ...u, gamification: u.gamification ?? { XP: 0 } }));
+  return data.users.map(u => ({
+    ...u,
+    gamification: u.gamification ?? { XP: 0 }
+  }));
 }
 
+// Combinar usuarios priorizando registrados sobre seeds
 export async function getAllUsers() {
   const seed = await getSeedUsers();
   const reg = getRegisteredUsers();
-  return [...seed, ...reg];
+
+  const merged = [...reg];
+
+  seed.forEach(s => {
+    const conflict = merged.some(
+      u => u.username === s.username || u.email === s.email
+    );
+    if (!conflict) merged.push(s);
+  });
+
+  return merged;
 }
 
 
 
 // SEGURIDAD -------------------------------------------------------
 
-// Redirigir si no hay un área seleccionada
 export function requireArea() {
   if (!lsHas("selected_area")) {
     window.location.replace("seleccion-area.html");
   }
 }
 
-// Verifica si hay usuario logueado Y si ya eligió un área
 export function requireAuth() {
   const logged = lsGet("loggedUser");
 
-  // Si no está logueado → enviar a login
   if (!logged) {
     window.location.replace("login.html");
     return;
@@ -85,12 +92,10 @@ export function requireAuth() {
 
   const page = document.body.dataset.page;
 
-  // Páginas permitidas sin selección de área:
   if (page === "login" || page === "seleccion-area") {
     return;
   }
 
-  // Si no tiene área → enviar a seleccion-area
   if (!localStorage.getItem("selected_area")) {
     window.location.replace("seleccion-area.html");
   }
@@ -98,17 +103,14 @@ export function requireAuth() {
 
 
 
-// GAMIFICACIÓN Y AYUDANTES ----------------------------------------
-
-// ID único incremental para nuevos usuarios registrados
+// GAMIFICACIÓN Y UTILIDADES --------------------------------------
 
 export function generateUserId() {
-  const reg = lsGet("registeredUsers", []);
-  if (!Array.isArray(reg) || reg.length === 0) return 1;
+  const reg = getRegisteredUsers();
+  if (!Array.isArray(reg) || reg.length === 0) return 1000;
+
   return Math.max(...reg.map(u => u.id || 0)) + 1;
 }
-
-// Asegurar que un usuario tenga el objeto gamification con XP
 
 export function ensureGamification(user) {
   if (!user) return user;
@@ -122,34 +124,44 @@ export function ensureGamification(user) {
   return user;
 }
 
-// Sincronizar la versión actual del usuario en registeredUsers
 
-export function syncUser(user) {
-  if (!user || user.id == null) return;
+
+// SINCRONIZAR USUARIO
+export function syncUser(userPartial) {
+  if (!userPartial || userPartial.id == null) return;
+
   let reg = getRegisteredUsers();
-  const exists = reg.some(u => u.id === user.id);
-  if (exists) {
-    reg = reg.map(u => (u.id === user.id ? user : u));
-  } else {
-    reg.push(user);
-  }
+
+  const original = reg.find(u => u.id === userPartial.id);
+  if (!original) return; // No sincronizar seeds
+
+  const updated = {
+    ...original,         // mantiene password
+    ...userPartial,      // aplica cambios
+    password: original.password
+  };
+
+  reg = reg.map(u => u.id === updated.id ? updated : u);
   saveRegisteredUsers(reg);
 }
 
-// Añadir XP al usuario en sesión y persistirlo
 
+
+// Añadir XP sin destruir contraseña
 export function addXP(amount = 0) {
   if (!Number.isFinite(amount) || amount === 0) return;
+
   let logged = lsGet("loggedUser");
   if (!logged || !logged.id) return;
 
   logged = ensureGamification(logged);
-  logged.gamification.XP = (logged.gamification.XP || 0) + amount;
+  logged.gamification.XP += amount;
 
-  // Guardar en sesión (sin password si existiera)
-  const { password, ...safeLogged } = logged;
+  // Guardar loggedUser sin password
+  const safeLogged = { ...logged };
+  delete safeLogged.password;
   lsSet("loggedUser", safeLogged);
 
-  // Guardar permanente en registeredUsers
-  syncUser(safeLogged);
+  // Sincronizar usando datos reales (en registeredUsers)
+  syncUser(logged);
 }

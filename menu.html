@@ -13,6 +13,10 @@
     <div class="container">
         <h2>Menú Principal</h2>
 
+        <p class="user-xp">
+            XP actual: <span id="xpValue">0</span>
+        </p>
+
         <button class="btn-primary" onclick="location.href='quiz.html'">
             Play
         </button>
@@ -32,15 +36,26 @@
 
     <!-- SEGURIDAD -->
     <script type="module">
-        import { requireAuth } from "./js/utils.js";
-        import { logout } from "./js/auth.js";
-        document.addEventListener("DOMContentLoaded", () => {
-            requireAuth();
-        });
+    import { requireAuth, lsGet } from "./js/utils.js";
+    import { logout } from "./js/auth.js";
 
-        // Exponer logout al global para uso en onclick
-        window.logout = logout;
-    </script>
+    document.addEventListener("DOMContentLoaded", () => {
+        requireAuth();
+
+        // Mostrar XP
+        const user = lsGet("loggedUser");
+        const xpElement = document.getElementById("xpValue");
+
+        if (user && user.gamification) {
+            xpElement.textContent = user.gamification.XP ?? 0;
+        } else {
+            xpElement.textContent = "0";
+        }
+    });
+
+    // Exponer logout al global para uso en onclick
+    window.logout = logout;
+</script>
 
 
 

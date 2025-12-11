@@ -16,7 +16,7 @@ body {
     background: white;
     padding: 25px;
     width: 300px;
-    border-radius: 10px;
+    border-radius: 12px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
@@ -43,23 +43,43 @@ button {
     width: 100%;
     padding: 10px;
     margin-top: 15px;
-    background: #e2a34a;
+    background: #e28e4a;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
     font-size: 16px;
 }
-
 button:hover {
-    background: #ffb642;
+    background: #ffc370;
+    transition: 0.2s;
 }
-
+button:not(:hover) {
+    background: #e28e4a;
+    transition: 0.2s;
+}
 button:disabled {
     background: #d3d3d3;
     color: #888;          
     cursor: not-allowed;  
 }
+
+.user-xp {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(204, 170, 46, 0.15);
+  padding: 8px 14px;
+  border-radius: 12px;
+
+  font-size: 1rem;
+  font-weight: 600;
+  color: #f07d0b;
+
+}
+
+
 
 
 /* -- Opciones del Area -- */
@@ -74,7 +94,7 @@ button:disabled {
 .area-item {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -86,18 +106,17 @@ button:disabled {
 .area-item:hover {
     background: #f3b66f;
 }
-
 .area-item input[type="radio"] {
     width: auto;
     margin: 0;
 }
 
-/* -- Opciones del Quiz -- */
+/* -- OPCIONES DEL QUIZ -- */
 
 .quiz-option {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 12px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -106,22 +125,20 @@ button:disabled {
     transition: 0.2s;
     margin-bottom: 10px;
 }
-
 .quiz-option:hover {
     background: #f3b66f;
 }
-
 .quiz-option input[type="radio"] {
     width: auto;
     margin: 0;
 }
 
+/* -- Feedback -- */
 .correct {
     border: 2px solid rgb(46, 204, 113); 
     background-color: rgba(46, 204, 113, 0.15);
     transition: background-color 1s ease;
 }
-
 .incorrect {
     border: 2px solid rgb(231, 76, 60); 
     background-color: rgba(231, 76, 60, 0.15 );

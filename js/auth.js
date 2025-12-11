@@ -2,14 +2,13 @@ import {
   lsGet,
   lsSet,
   lsRemove,
-  loadJSON,
   getRegisteredUsers,
   saveRegisteredUsers,
-  getSeedUsers,
   getAllUsers,
   resetKeys,
   generateUserId,
-  ensureGamification
+  ensureGamification,
+  syncUser
 } from "./utils.js";
 
 
@@ -25,40 +24,42 @@ async function runLogin() {
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    // Carga de los usuarios combinados (seeds + registrados)
     const allUsers = await getAllUsers();
 
     const foundUser = allUsers.find(
       u => u.username === username && u.password === password
     );
 
-    if (foundUser) {
-      // Asegurar que el usuario tenga gamification
-      const userWithXP = ensureGamification({ ...foundUser });
-
-      // Registrar en registeredUsers si aún no existe (migra semilla)
-      let reg = getRegisteredUsers();
-      const exists = reg.some(u => u.id === userWithXP.id);
-
-      if (!exists) {
-        // Guardamos la versión persistente (incluye gamification)
-        reg.push(userWithXP);
-        saveRegisteredUsers(reg);
-      }
-
-      // Recuperar la versión persistente (para mantener consistencia)
-      const persistent = reg.find(u => u.id === userWithXP.id);
-
-      // Guardar loggedUser sin password
-      const { password: _pwd, ...safeUser } = persistent;
-      lsSet("loggedUser", safeUser);
-
-      location.href = "menu.html";
-    } else {
+    if (!foundUser) {
       errorMsg.style.display = "block";
+      return;
     }
+
+    // Asegurar XP
+    const userWithXP = ensureGamification({ ...foundUser });
+
+    // ¿Ya existe en registeredUsers?
+    let reg = getRegisteredUsers();
+    const exists = reg.some(u => u.id === userWithXP.id);
+
+    // Migración desde seed → conservar password
+    if (!exists) {
+      reg.push({ ...userWithXP });
+      saveRegisteredUsers(reg);
+    }
+
+    // Recuperar usuario real
+    const persistent = reg.find(u => u.id === userWithXP.id);
+
+    // Guardar sesión sin password
+    const safeUser = { ...persistent };
+    delete safeUser.password;
+    lsSet("loggedUser", safeUser);
+
+    location.href = "menu.html";
   };
 }
+
 
 
 // REGISTRO -------------------------------------------------------------------------
@@ -75,9 +76,8 @@ function runRegister() {
     const username = document.getElementById("regUser").value.trim();
     const password = document.getElementById("regPass").value.trim();
 
-    // Cargar TODOS los usuarios (semilla + registrados)
     const allUsers = await getAllUsers();
-
+    
     // Validación correcta sobre todo el sistema
     const exists = allUsers.some(
       u => u.email === email || u.username === username
@@ -110,7 +110,6 @@ function runRegister() {
 
 
 // FUNCIONES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 // Logout limpio
 export function logout() {
