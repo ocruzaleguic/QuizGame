@@ -76,26 +76,31 @@ export async function getAllUsers() {
 
 // SEGURIDAD -------------------------------------------------------
 
+// Redirigir si no hay un área seleccionada
 export function requireArea() {
   if (!lsHas("selected_area")) {
     window.location.replace("seleccion-area.html");
   }
 }
 
+// Verifica si hay usuario logueado Y si ya eligió un área
 export function requireAuth() {
   const logged = lsGet("loggedUser");
 
+  // Si no está logueado → enviar a login
   if (!logged) {
     window.location.replace("login.html");
     return;
   }
 
   const page = document.body.dataset.page;
-
+  
+  // Páginas permitidas sin selección de área:
   if (page === "login" || page === "seleccion-area") {
     return;
   }
 
+  // Si no tiene área → enviar a seleccion-area
   if (!localStorage.getItem("selected_area")) {
     window.location.replace("seleccion-area.html");
   }
@@ -105,9 +110,10 @@ export function requireAuth() {
 
 // GAMIFICACIÓN Y UTILIDADES --------------------------------------
 
+// ID único incremental para nuevos usuarios
 export function generateUserId() {
   const reg = getRegisteredUsers();
-  if (!Array.isArray(reg) || reg.length === 0) return 1000;
+  if (!Array.isArray(reg) || reg.length === 0) return 100;
 
   return Math.max(...reg.map(u => u.id || 0)) + 1;
 }
