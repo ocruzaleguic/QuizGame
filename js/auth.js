@@ -8,8 +8,10 @@ import {
   resetKeys,
   generateUserId,
   ensureGamification,
-  syncUser
+  syncUser,
+  DEFAULT_GAMIFICATION
 } from "./utils.js";
+
 
 
 // LOGIN ----------------------------------------------------------------------------
@@ -95,7 +97,7 @@ function runRegister() {
       email,
       username,
       password,
-      gamification: { XP: 0 }
+      gamification: { ...DEFAULT_GAMIFICATION }
     };
 
     // Añadir SOLO a los registrados (localStorage)

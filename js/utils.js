@@ -1,5 +1,13 @@
 // LOCALSTORAGE ----------------------------------------------------
 
+// Estructura base de gamificación (escalable)
+export const DEFAULT_GAMIFICATION = {
+  XP: 0,
+  achievements: []
+};
+
+
+
 // Get & Set genéricos
 export function lsGet(key, fallback = null) {
   const val = localStorage.getItem(key);
@@ -64,9 +72,13 @@ export async function getSeedUsers() {
   const data = await loadJSON("./data/users.json");
   return data.users.map(u => ({
     ...u,
-    gamification: u.gamification ?? { XP: 0 }
+    gamification: {
+      ...DEFAULT_GAMIFICATION,
+      ...u.gamification
+    }
   }));
 }
+
 
 // Combinar usuarios priorizando registrados sobre seeds
 export async function getAllUsers() {
@@ -134,23 +146,21 @@ export function generateUserId() {
 export function ensureGamification(user) {
   if (!user) return user;
 
+  // Si no existe gamification, crear base completa
   if (!user.gamification || typeof user.gamification !== "object") {
-    user.gamification = { XP: 0, achievements: [] };
+    user.gamification = { ...DEFAULT_GAMIFICATION };
     return user;
   }
 
-  // XP
-  if (user.gamification.XP == null) {
-    user.gamification.XP = 0;
-  }
-
-  // Achievements
-  if (!Array.isArray(user.gamification.achievements)) {
-    user.gamification.achievements = [];
-  }
+  // Merge: añadir SOLO lo que falte
+  user.gamification = {
+    ...DEFAULT_GAMIFICATION,
+    ...user.gamification
+  };
 
   return user;
 }
+
 
 
 

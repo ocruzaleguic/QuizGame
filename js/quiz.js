@@ -62,7 +62,7 @@ function initQuizPage() {
 }
 
 
-// Mostrar Pregunta Actual
+// Mostrar Pregunta Actual ------------------------
 
 function showCurrentQuestion(questions) {
   const index = getIndex();
@@ -104,11 +104,15 @@ function submitAnswer(q, questions) {
   const optionDivs = document.querySelectorAll("#optionsContainer .quiz-option");
   const radios = document.querySelectorAll("input[name='quizOption']");
 
-  // Feedback visual
+
+
+  // Al marcar "Aceptar respuesta" ----------------------------------
 
   if (selectedIndex === correctIndex) {
     addScore();
-    addXP(10); // <-- XP por respuesta correcta
+    addXP(10);
+
+    // Feedback visual
     optionDivs[selectedIndex].classList.add("correct");
   } else {
     optionDivs[selectedIndex].classList.add("incorrect");
@@ -129,7 +133,7 @@ function submitAnswer(q, questions) {
 }
 
 
-// QUIZ END -------------------------------------------------------------------
+// QUIZ END -------------------------------------------------------------------------
 
 function showFinalScreen(questions) {
   const score = getScore();
