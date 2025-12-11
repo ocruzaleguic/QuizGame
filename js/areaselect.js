@@ -9,7 +9,10 @@ const continueBtn = document.getElementById("continueBtn");
 
 let selectedArea = lsGet("selected_area");  // Puede existir por sesiones previas
 
-init();
+if (areasContainer && continueBtn) {
+  init();
+}
+
 
 async function init() {
   const data = await loadJSON("./data/quiz.json");
@@ -48,4 +51,36 @@ async function init() {
     lsSet("selected_area", selectedArea);
     location.href = "./menu.html";
   });
+}
+
+// FUNCIONES REUTILIZABLES --------------------------------------------------
+
+// Devuelve el ID del area
+export function getSelectedAreaId() {
+    return lsGet("selected_area");
+}
+
+// Carga quiz.json y devuelve el área completa
+export async function loadSelectedArea() {
+    const id = getSelectedAreaId();
+    if (!id) return null;
+
+    try {
+        const res = await fetch("./data/quiz.json");
+        const data = await res.json();
+
+        return data.areas.find(a => a.id === id) || null;
+    } catch (err) {
+        console.error("Error cargando área:", err);
+        return null;
+    }
+}
+
+// Devuelve el nombre del área
+export async function showSelectedArea(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    const area = await loadSelectedArea();
+    el.textContent = area ? `Área: ${area.name}` : "Área no seleccionada";
 }

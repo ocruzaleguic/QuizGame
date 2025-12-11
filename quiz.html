@@ -11,6 +11,9 @@
 <body data-page="quiz">
 
   <div class="container">
+
+    <p id="currentArea" class="current-area"></p>
+
     <h2 id="questionText"> Preguntas </h2>
 
     <div id="optionsContainer"></div>
@@ -32,6 +35,15 @@
 
 
   <script type="module" src="./js/quiz.js"></script>
+
+<script type="module">
+    import { showSelectedArea } from "./js/areaselect.js";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        showSelectedArea("currentArea");
+    });
+</script>
+
 
 </body>
 

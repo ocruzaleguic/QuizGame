@@ -25,6 +25,19 @@ export function lsHas(key) {
   return localStorage.getItem(key) !== null;
 }
 
+export async function loadAreaName() {
+  const selectedAreaId = lsGet("selected_area");
+  if (!selectedAreaId) return null;
+
+  try {
+    const data = await loadJSON("./data/quiz.json");
+    const area = data.areas.find(a => a.id === selectedAreaId);
+    return area ? area.name : null;
+  } catch (e) {
+    console.error("Error cargando área:", e);
+    return null;
+  }
+}
 
 
 // JSON Y FETCH ----------------------------------------------------

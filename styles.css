@@ -1,3 +1,6 @@
+
+/* -- ESTILOS GENERALES ----------------------------------------- */
+
 body {
     font-family: Arial, sans-serif;
     background: #ebddc0;
@@ -64,6 +67,16 @@ button:disabled {
     cursor: not-allowed;  
 }
 
+/* -- COMPONENTES ESPECÍFICOS ----------------------------------- */
+
+.menu {
+    text-align: center;
+    font-size:x-large;
+    margin-bottom: 20px;
+}
+
+/* -- GAMIFICACIÓN ---------------------------------------------- */
+
 .user-xp {
   display: flex;
   gap: 10px;
@@ -79,10 +92,16 @@ button:disabled {
 
 }
 
+/* -- OPCIONES DEL AREA ----------------------------------------- */
 
+.current-area {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #a17f59;
+}
 
-
-/* -- Opciones del Area -- */
 
 .area-list {
     margin-top: 15px;
@@ -111,7 +130,9 @@ button:disabled {
     margin: 0;
 }
 
-/* -- OPCIONES DEL QUIZ -- */
+
+
+/* -- OPCIONES DEL QUIZ ----------------------------------------- */
 
 .quiz-option {
     padding: 10px;

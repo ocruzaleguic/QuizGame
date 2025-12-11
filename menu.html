@@ -11,10 +11,10 @@
 <body data-page="menu">
 
     <div class="container">
-
-        <h2>Menú Principal</h2>
+        <h2 class="menu">Menú Principal</h2>
 
         <p id="currentArea" class="current-area"></p>
+
 
         <p class="user-xp">
             XP actual: <span id="xpValue">0</span>
@@ -39,26 +39,25 @@
 
     <!-- SEGURIDAD -->
     <script type="module">
-    import { requireAuth, lsGet } from "./js/utils.js";
-    import { logout } from "./js/auth.js";
+        import { requireAuth, lsGet } from "./js/utils.js";
+        import { logout } from "./js/auth.js";
+        import { showSelectedArea } from "./js/areaselect.js";
 
-    document.addEventListener("DOMContentLoaded", () => {
-        requireAuth();
+        document.addEventListener("DOMContentLoaded", () => {
+            requireAuth();
 
-        // Mostrar XP
-        const user = lsGet("loggedUser");
-        const xpElement = document.getElementById("xpValue");
+            // Mostrar XP
+            const user = lsGet("loggedUser");
+            const xpElement = document.getElementById("xpValue");
+            xpElement.textContent = user?.gamification?.XP ?? 0;
 
-        if (user && user.gamification) {
-            xpElement.textContent = user.gamification.XP ?? 0;
-        } else {
-            xpElement.textContent = "0";
-        }
-    });
+            // Mostrar área seleccionada
+            showSelectedArea("currentArea");
+        });
 
-    // Exponer logout al global para uso en onclick
-    window.logout = logout;
-</script>
+        window.logout = logout;
+    </script>
+
 
 
 
