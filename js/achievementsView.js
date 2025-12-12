@@ -50,7 +50,4 @@ function init() {
     listContainer.appendChild(div);
   });
 
-  backBtn.onclick = () => {
-    location.href = "menu.html";
-  };
 }

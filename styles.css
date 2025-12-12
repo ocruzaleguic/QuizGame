@@ -119,6 +119,8 @@ button:disabled {
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
+
+
 /* -- OPCIONES DEL AREA ----------------------------------------------------- */
 
 .current-area {
@@ -166,7 +168,7 @@ button:disabled {
     user-select: none;
 }
 
-/* Hover (estado visual) */
+/* Hover */
 
 .area-item:hover,
 .quiz-option:hover {
@@ -248,6 +250,9 @@ button:disabled {
   flex-direction: column;
   gap: 18px;
   margin-top: 20px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 /* TARJETA BASE */
@@ -256,10 +261,9 @@ button:disabled {
   position: relative;
   padding: 15px 18px;
   border-radius: 12px;
-  border: 1px solid #444;
-  background: #2b2b2b;
   overflow: hidden;
   transition: all 0.25s ease-in-out;
+  min-height: 70px;
 }
 
 /* CONTENIDO */
@@ -326,14 +330,4 @@ button:disabled {
   color: #57c074;
 }
 
-.achievements-list {
-  max-height: calc(100vh - 140px);
-  overflow-y: auto;
-  padding-right: 6px;
-}
-
-.achievement-item {
-  position: relative;
-  min-height: 70px;
-}
 
