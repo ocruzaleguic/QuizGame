@@ -2,7 +2,8 @@ import { ACHIEVEMENTS } from "./achievements.js";
 
 // LOCALSTORAGE ---------------------------------------------------------------
 
-// Estructura base de gamificación (escalable)
+// ESTRUCTURA DE GAMIFICACIÓN BASE
+
 export const DEFAULT_GAMIFICATION = {
   XP: 0,
   achievements: []

@@ -238,3 +238,102 @@ button:disabled {
     box-shadow: 0 0 10px rgba(231, 76, 60, 0.4) !important;
     transform: scale(1.03) !important;
 }
+
+/* -- PESTAÑA DE ACHIEVEMENTS ------------------------------------------------- */
+
+/* CONTENEDOR GENERAL */
+
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 20px;
+}
+
+/* TARJETA BASE */
+
+.achievement-item {
+  position: relative;
+  padding: 15px 18px;
+  border-radius: 12px;
+  border: 1px solid #444;
+  background: #2b2b2b;
+  overflow: hidden;
+  transition: all 0.25s ease-in-out;
+}
+
+/* CONTENIDO */
+
+.achievement-content {
+  position: relative;
+  z-index: 2;
+}
+.achievement-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: bold;
+}
+.achievement-desc {
+  margin: 4px 0 10px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+.achievement-status {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+
+/* ESTADO BLOQUEADO --------------------------------- */
+
+.achievement-item.locked {
+  color: #ddd;
+  border: 0px solid #626262;
+  background: #626262;
+}
+.achievement-item.locked .achievement-title {
+  color: #eee;
+}
+.achievement-item.locked .achievement-status.pending {
+  color: #bbb;
+}
+/* Al desbloquear, ocultar barra gris */
+.achievement-item.unlocked .achievement-progress {
+  display: none;
+}
+
+/* PROGRESO ----------------------------------------- */
+
+.achievement-progress {
+  position: absolute;
+  inset: 0;
+}
+.achievement-progress-fill {
+  height: 100%;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* ESTADO DESBLOQUEADO ------------------------------ */
+
+.achievement-item.unlocked {
+  background: rgba(0, 180, 90, 0.18);
+  border: 3px solid rgb(46, 204, 113);
+}
+.achievement-item.unlocked .achievement-title {
+  color: #57c074;
+}
+.achievement-item.unlocked .achievement-status.completed {
+  color: #57c074;
+}
+
+.achievements-list {
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.achievement-item {
+  position: relative;
+  min-height: 70px;
+}
+
