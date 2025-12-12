@@ -8,7 +8,6 @@ import {
   resetKeys,
   generateUserId,
   ensureGamification,
-  syncUser,
   DEFAULT_GAMIFICATION
 } from "./utils.js";
 
