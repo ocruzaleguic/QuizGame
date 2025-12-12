@@ -1,4 +1,3 @@
-
 import { lsGet, lsSet, lsRemove, loadJSON, resetKeys, addXP } from "./utils.js";
 
 // Redirección sin doble renderización

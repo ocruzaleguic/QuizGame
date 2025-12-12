@@ -1,4 +1,6 @@
-// LOCALSTORAGE ----------------------------------------------------
+import { ACHIEVEMENTS } from "./achievements.js"; 
+
+// LOCALSTORAGE ---------------------------------------------------------------
 
 // Estructura base de gamificación (escalable)
 export const DEFAULT_GAMIFICATION = {
@@ -48,7 +50,8 @@ export async function loadAreaName() {
 }
 
 
-// JSON Y FETCH ----------------------------------------------------
+// JSON Y FETCH ---------------------------------------------------------------
+
 export async function loadJSON(path) {
   const res = await fetch(path);
   return res.json();
@@ -56,7 +59,7 @@ export async function loadJSON(path) {
 
 
 
-// USUARIOS --------------------------------------------------------
+// USUARIOS -------------------------------------------------------------------
 
 // Usuarios registrados
 export function getRegisteredUsers() {
@@ -97,9 +100,120 @@ export async function getAllUsers() {
   return merged;
 }
 
+// ID único incremental para nuevos usuarios
+export function generateUserId() {
+  const reg = getRegisteredUsers();
+  if (!Array.isArray(reg) || reg.length === 0) return 100;
+
+  return Math.max(...reg.map(u => u.id || 0)) + 1;
+}
 
 
-// SEGURIDAD -------------------------------------------------------
+// GAMIFICACIÓN Y UTILIDADES ---------------------------------------------------
+
+export function ensureGamification(user) {
+  if (!user) return user;
+
+  // Si no existe gamification, crear base completa
+  if (!user.gamification || typeof user.gamification !== "object") {
+    user.gamification = { ...DEFAULT_GAMIFICATION };
+    return user;
+  }
+
+  // Merge: añadir SOLO lo que falte
+  user.gamification = {
+    ...DEFAULT_GAMIFICATION,
+    ...user.gamification
+  };
+
+  return user;
+}
+
+
+// LOGROS DE XP
+
+export function checkAndUnlockAchievements(user) {
+  
+  if (!user) return [];
+
+  user = ensureGamification(user);
+  const unlockedNow = [];
+
+  // Filtrar logros solo tipo XP
+  const xpAchievements = ACHIEVEMENTS.filter(a => a.type === "XP");
+
+  for (const ach of xpAchievements) {
+    const alreadyUnlocked = user.gamification.achievements.includes(ach.id);
+    const meetsThreshold = user.gamification.XP >= ach.threshold;
+
+    if (!alreadyUnlocked && meetsThreshold) {
+      // Agregar logro al usuario
+      user.gamification.achievements.push(ach.id);
+      unlockedNow.push(ach);
+    }
+  }
+
+  // Si no hubo cambios, salir
+  if (unlockedNow.length === 0) {
+    return [];
+  }
+
+  // --- Guardar cambios globales ---
+
+  // Guardar loggedUser
+  const safeUser = { ...user };
+  delete safeUser.password;
+  lsSet("loggedUser", safeUser);
+
+  // Guardar en registeredUsers
+  syncUser(user);
+
+  return unlockedNow;
+}
+
+
+// SINCRONIZAR USUARIO ---------------------------------------------------------
+
+export function syncUser(userPartial) {
+  if (!userPartial || userPartial.id == null) return;
+
+  let reg = getRegisteredUsers();
+
+  const original = reg.find(u => u.id === userPartial.id);
+  if (!original) return; // No sincronizar seeds
+
+  const updated = {
+    ...original,         // mantiene password
+    ...userPartial,      // aplica cambios
+    password: original.password
+  };
+
+  reg = reg.map(u => u.id === updated.id ? updated : u);
+  saveRegisteredUsers(reg);
+}
+
+// Añadir XP sin destruir contraseña
+export function addXP(amount = 0) {
+  if (!Number.isFinite(amount) || amount === 0) return;
+
+  let logged = lsGet("loggedUser");
+  if (!logged || !logged.id) return;
+
+  logged = ensureGamification(logged);
+  logged.gamification.XP += amount;
+
+  // Guardar loggedUser sin password
+  const safeLogged = { ...logged };
+  delete safeLogged.password;
+  lsSet("loggedUser", safeLogged);
+
+  // Sincronizar usuario
+  syncUser(logged);
+  const unlocked = checkAndUnlockAchievements(logged);
+}
+
+
+// SEGURIDAD -------------------------------------------------------------------
 
 // Redirigir si no hay un área seleccionada
 export function requireArea() {
@@ -129,77 +243,4 @@ export function requireAuth() {
   if (!localStorage.getItem("selected_area")) {
     window.location.replace("seleccion-area.html");
   }
-}
-
-
-
-// GAMIFICACIÓN Y UTILIDADES --------------------------------------
-
-// ID único incremental para nuevos usuarios
-export function generateUserId() {
-  const reg = getRegisteredUsers();
-  if (!Array.isArray(reg) || reg.length === 0) return 100;
-
-  return Math.max(...reg.map(u => u.id || 0)) + 1;
-}
-
-export function ensureGamification(user) {
-  if (!user) return user;
-
-  // Si no existe gamification, crear base completa
-  if (!user.gamification || typeof user.gamification !== "object") {
-    user.gamification = { ...DEFAULT_GAMIFICATION };
-    return user;
-  }
-
-  // Merge: añadir SOLO lo que falte
-  user.gamification = {
-    ...DEFAULT_GAMIFICATION,
-    ...user.gamification
-  };
-
-  return user;
-}
-
-
-
-
-// SINCRONIZAR USUARIO
-export function syncUser(userPartial) {
-  if (!userPartial || userPartial.id == null) return;
-
-  let reg = getRegisteredUsers();
-
-  const original = reg.find(u => u.id === userPartial.id);
-  if (!original) return; // No sincronizar seeds
-
-  const updated = {
-    ...original,         // mantiene password
-    ...userPartial,      // aplica cambios
-    password: original.password
-  };
-
-  reg = reg.map(u => u.id === updated.id ? updated : u);
-  saveRegisteredUsers(reg);
-}
-
-
-
-// Añadir XP sin destruir contraseña
-export function addXP(amount = 0) {
-  if (!Number.isFinite(amount) || amount === 0) return;
-
-  let logged = lsGet("loggedUser");
-  if (!logged || !logged.id) return;
-
-  logged = ensureGamification(logged);
-  logged.gamification.XP += amount;
-
-  // Guardar loggedUser sin password
-  const safeLogged = { ...logged };
-  delete safeLogged.password;
-  lsSet("loggedUser", safeLogged);
-
-  // Sincronizar usando datos reales (en registeredUsers)
-  syncUser(logged);
 }
