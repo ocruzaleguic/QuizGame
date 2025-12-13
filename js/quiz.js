@@ -7,7 +7,7 @@ if (!localStorage.getItem("selected_area")) {
 
 // QUIZ ----------------------------------------------------------------------
 
-// Estado del Quiz en localStorage
+// Estado del Quiz en localStorage ----------------------------
 function getIndex() {
   return lsGet("quiz_index", 0);
 }
@@ -29,7 +29,7 @@ function resetQuizState() {
   lsSet("quiz_score", 0);
 }
 
-// Cargar Preguntas
+// Cargar Preguntas -------------------------------------------
 
 function loadQuestions() {
   const selectedArea = lsGet("selected_area");
@@ -46,7 +46,7 @@ function loadQuestions() {
     });
 }
 
-// Inicializar los listeners
+// Inicializar los listeners ----------------------------------
 
 let optionsContainer = null;
 let submitBtn = null;
@@ -61,7 +61,7 @@ function initQuizPage() {
 }
 
 
-// Mostrar Pregunta Actual ------------------------
+// Mostrar Pregunta Actual ------------------------------------
 
 function showCurrentQuestion(questions) {
   const index = getIndex();
@@ -79,15 +79,15 @@ function showCurrentQuestion(questions) {
   submitBtn.disabled = true;
 
   q.options.forEach((opt, i) => {
-  const label = document.createElement("label");
-  label.className = "quiz-option";
-  label.innerHTML = `
+    const label = document.createElement("label");
+    label.className = "quiz-option";
+    label.innerHTML = `
     <input type="radio" name="quizOption" value="${i}">
     <span>${opt}</span>
   `;
 
-  optionsContainer.appendChild(label);
-});
+    optionsContainer.appendChild(label);
+  });
 
 
   submitBtn.onclick = () => submitAnswer(q, questions);
@@ -105,25 +105,26 @@ function submitAnswer(q, questions) {
 
 
 
-  // Al marcar "Aceptar respuesta" ----------------------------------
+  // Al marcar "Aceptar respuesta" -----------------------------
 
   if (selectedIndex === correctIndex) {
     addScore();
     addXP(10);
 
-    // Feedback visual
+    // Feedback visual -----------------------------------------
+
     optionDivs[selectedIndex].classList.add("correct");
   } else {
     optionDivs[selectedIndex].classList.add("incorrect");
     optionDivs[correctIndex].classList.add("correct");
   }
 
-  // Desactivar UI mientras dura la retroalimentación
+  // Desactivar UI mientras dura la retroalimentación ----------
 
   submitBtn.disabled = true;
   radios.forEach(r => r.disabled = true);
 
-  // Espera de 1.5 segundos antes de avanzar
+  // Espera de 1.5 segundos antes de avanzar -------------------
 
   setTimeout(() => {
     setIndex(getIndex() + 1);

@@ -1,11 +1,7 @@
 import { ACHIEVEMENTS } from "./achievements.js";
 import { lsGet, requireAuth } from "./utils.js";
 
-// Proteger pantalla
-requireAuth();
-
 const listContainer = document.getElementById("achievementsList");
-const backBtn = document.getElementById("backBtn");
 
 init();
 
@@ -19,7 +15,7 @@ function init() {
   ACHIEVEMENTS.forEach(a => {
     const isUnlocked = unlockedIds.includes(a.id);
 
-    // Calcular progreso
+    // Calcular progreso para el CSS
     const progressRatio = Math.min(xp / a.threshold, 1);
     const progressPercent = progressRatio * 100;
 
@@ -51,3 +47,6 @@ function init() {
   });
 
 }
+
+// Proteger pantalla
+requireAuth();

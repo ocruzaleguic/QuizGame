@@ -1,4 +1,4 @@
-import { ACHIEVEMENTS } from "./achievements.js"; 
+import { ACHIEVEMENTS } from "./achievements.js";
 
 // LOCALSTORAGE ---------------------------------------------------------------
 
@@ -131,10 +131,10 @@ export function ensureGamification(user) {
 }
 
 
-// LOGROS DE XP
+// LOGROS DE XP ---------------------------------------------
 
 export function checkAndUnlockAchievements(user) {
-  
+
   if (!user) return [];
 
   user = ensureGamification(user);
@@ -159,8 +159,6 @@ export function checkAndUnlockAchievements(user) {
     return [];
   }
 
-  // --- Guardar cambios globales ---
-
   // Guardar loggedUser
   const safeUser = { ...user };
   delete safeUser.password;
@@ -171,6 +169,77 @@ export function checkAndUnlockAchievements(user) {
 
   return unlockedNow;
 }
+
+// TOAST PARA LOGROS ----------------------------------------
+
+const TOAST_QUEUE = "achievementToastQueue";
+
+let toastIsShowing = false;
+
+// Obtener cola persistente
+function getToastQueue() {
+  return lsGet(TOAST_QUEUE, []);
+}
+
+// Guardar cola persistente
+function saveToastQueue(queue) {
+  lsSet(TOAST_QUEUE, queue);
+}
+
+// Se llama cuando se desbloquean logros
+export function showAchievementToast(achievements) {
+  if (!Array.isArray(achievements) || achievements.length === 0) return;
+
+  const queue = getToastQueue();
+
+  achievements.forEach(a => {
+    queue.push({
+      id: a.id,
+      name: a.name
+    });
+  });
+
+  saveToastQueue(queue);
+
+  // Intentar reproducir inmediatamente
+  playAchievementToasts();
+}
+
+// Se puede llamar al cargar cualquier página
+export function playAchievementToasts() {
+  if (toastIsShowing) return;
+
+  const queue = getToastQueue();
+  if (!queue || queue.length === 0) return;
+
+  const toast = document.getElementById("achievement-toast");
+  if (!toast) return; // Página aún no lista o no tiene toast
+
+  toastIsShowing = true;
+
+  const nextAch = queue.shift();
+  saveToastQueue(queue);
+
+  toast.textContent = `🎉 Nuevo logro desbloqueado: ${nextAch.name}`;
+  toast.classList.remove("hidden");
+
+  // Mostrar
+  requestAnimationFrame(() => {
+    toast.classList.add("show");
+  });
+
+  // Ocultar después de 2.5s
+  setTimeout(() => {
+    toast.classList.remove("show");
+
+    setTimeout(() => {
+      toastIsShowing = false;
+      playAchievementToasts(); // Mostrar siguiente si existe
+    }, 300);
+
+  }, 2500);
+}
+
 
 
 // SINCRONIZAR USUARIO ---------------------------------------------------------
@@ -210,7 +279,13 @@ export function addXP(amount = 0) {
 
   // Sincronizar usuario
   syncUser(logged);
+
+  // Mostrar Toast
   const unlocked = checkAndUnlockAchievements(logged);
+  if (unlocked.length > 0) {
+    showAchievementToast(unlocked);
+  }
+
 }
 
 
@@ -234,7 +309,7 @@ export function requireAuth() {
   }
 
   const page = document.body.dataset.page;
-  
+
   // Páginas permitidas sin selección de área:
   if (page === "login" || page === "seleccion-area") {
     return;
@@ -245,3 +320,21 @@ export function requireAuth() {
     window.location.replace("seleccion-area.html");
   }
 }
+
+// AUTO-INICIALIZACIÓN GLOBAL DEL TOAST
+
+function ensureToastElement() {
+  if (document.getElementById("achievement-toast")) return;
+
+  const toast = document.createElement("div");
+  toast.id = "achievement-toast";
+  toast.className = "achievement-toast hidden";
+
+  document.body.appendChild(toast);
+}
+
+// Auto-arranque global
+window.addEventListener("DOMContentLoaded", () => {
+  ensureToastElement();
+  playAchievementToasts();
+});
