@@ -1,4 +1,4 @@
-import { lsGet, lsSet, lsRemove, loadJSON, resetKeys, addXP } from "./utils.js";
+import { lsGet, lsSet, loadJSON, resetKeys, addXP } from "./utils.js";
 
 // Redirección sin doble renderización
 if (!localStorage.getItem("selected_area")) {

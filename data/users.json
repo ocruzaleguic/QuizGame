@@ -2,10 +2,10 @@
   "users": [
     {
       "id": 1,
-      "name": "Demo Number One",
-      "email": "demo@example.com",
-      "username": "demo",
-      "password": "123456",
+      "name": "Enrique Shaffer",
+      "email": "enrique@example.com",
+      "username": "enrique",
+      "password": "enrique1",
       "gamification": {
         "XP": 0,
         "achievements": []
@@ -13,12 +13,34 @@
     },
     {
       "id": 2,
-      "name": "Player of the year",
-      "email": "player1@example.com",
-      "username": "player1",
-      "password": "password",
+      "name": "Mauricio León",
+      "email": "mauricio@example.com",
+      "username": "mauricio",
+      "password": "mauricio1",
       "gamification": {
         "XP": 0,
+        "achievements": []
+      }
+    },
+    {
+      "id": 3,
+      "name": "Tamara Lisset Chicata",
+      "email": "tamara@example.com",
+      "username": "tamara",
+      "password": "tamara1",
+      "gamification": {
+        "XP": 20,
+        "achievements": []
+      }
+    },
+    {
+      "id": 4,
+      "name": "Hikaru Ouchida Nakama",
+      "email": "valerie@example.com",
+      "username": "hikaru",
+      "password": "hikaru1",
+      "gamification": {
+        "XP": 10,
         "achievements": []
       }
     }
