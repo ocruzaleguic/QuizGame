@@ -18,8 +18,8 @@
       "username": "mauricio",
       "password": "mauricio1",
       "gamification": {
-        "XP": 0,
-        "achievements": []
+        "XP": 10,
+        "achievements": ["xp_10a", "xp_10b"]
       }
     },
     {
@@ -29,8 +29,8 @@
       "username": "tamara",
       "password": "tamara1",
       "gamification": {
-        "XP": 20,
-        "achievements": []
+        "XP": 40,
+        "achievements": ["xp_10a", "xp_10b", "xp_40"]
       }
     },
     {
@@ -40,8 +40,8 @@
       "username": "hikaru",
       "password": "hikaru1",
       "gamification": {
-        "XP": 10,
-        "achievements": []
+        "XP": 60,
+        "achievements": ["xp_10a", "xp_10b", "xp_40", "xp_60"]
       }
     }
   ]

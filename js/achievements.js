@@ -14,24 +14,24 @@ export const ACHIEVEMENTS = [
         threshold: 10
     },
     {
-        id: "xp_50",
+        id: "xp_40",
         name: "Entrando en calor",
         description: "Llega a 40 XP",
         type: "XP",
         threshold: 40
     },
     {
-        id: "xp_80",
+        id: "xp_60",
         name: "Estudiante constante",
-        description: "Llega a 80 XP",
+        description: "Llega a 60 XP",
         type: "XP",
-        threshold: 80
+        threshold: 60
     },
     {
-        id: "xp_100",
+        id: "xp_90",
         name: "Candidato PMP",
-        description: "Llega a 100 XP",
+        description: "Llega a 90 XP",
         type: "XP",
-        threshold: 100
+        threshold: 90
     }
 ];

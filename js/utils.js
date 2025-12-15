@@ -293,7 +293,20 @@ export function requireAuth() {
   }
 }
 
-// AUTO-INICIALIZACIÓN GLOBAL DEL TOAST
+// INICIALIZACIONES --------------------------------------------------
+
+// Auto-inicialización de los usuarios semilla
+
+export async function initRegisteredUsersFromSeeds() {
+  const registered = getRegisteredUsers();
+  // Si ya hay usuarios, no tocar nada
+  if (registered.length > 0) return;
+  const seeds = await getSeedUsers();
+  saveRegisteredUsers(seeds);
+}
+
+
+// Auto-inicialización global del Toast
 
 function ensureToastElement() {
   if (document.getElementById("achievement-toast")) return;
@@ -306,6 +319,7 @@ function ensureToastElement() {
 }
 
 // Auto-arranque global
+
 window.addEventListener("DOMContentLoaded", () => {
   ensureToastElement();
   playAchievementToasts();

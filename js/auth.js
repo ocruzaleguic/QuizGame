@@ -4,30 +4,33 @@ import {
   lsRemove,
   getRegisteredUsers,
   saveRegisteredUsers,
-  getAllUsers,
   resetKeys,
   generateUserId,
   ensureGamification,
-  DEFAULT_GAMIFICATION
+  DEFAULT_GAMIFICATION,
+  initRegisteredUsersFromSeeds
 } from "./utils.js";
-
 
 
 // LOGIN ----------------------------------------------------------------------------
 
 async function runLogin() {
+
+  // Inicializar usuarios seed solo la primera vez
+  await initRegisteredUsersFromSeeds();
+
   const form = document.getElementById("loginForm");
   const errorMsg = document.getElementById("loginError");
 
-  form.onsubmit = async (e) => {
+  form.onsubmit = (e) => {
     e.preventDefault();
 
     const username = document.getElementById("username").value.trim();
     const password = document.getElementById("password").value.trim();
 
-    const allUsers = await getAllUsers();
+    const registeredUsers = getRegisteredUsers();
 
-    const foundUser = allUsers.find(
+    const foundUser = registeredUsers.find(
       u => u.username === username && u.password === password
     );
 
@@ -36,24 +39,11 @@ async function runLogin() {
       return;
     }
 
-    // Asegurar XP
+    // Asegurar estructura de gamificación
     const userWithXP = ensureGamification({ ...foundUser });
 
-    // ¿Ya existe en registeredUsers?
-    let reg = getRegisteredUsers();
-    const exists = reg.some(u => u.id === userWithXP.id);
-
-    // Migración desde seed → conservar password
-    if (!exists) {
-      reg.push({ ...userWithXP });
-      saveRegisteredUsers(reg);
-    }
-
-    // Recuperar usuario real
-    const persistent = reg.find(u => u.id === userWithXP.id);
-
     // Guardar sesión sin password
-    const safeUser = { ...persistent };
+    const safeUser = { ...userWithXP };
     delete safeUser.password;
     lsSet("loggedUser", safeUser);
 
@@ -62,14 +52,13 @@ async function runLogin() {
 }
 
 
-
 // REGISTRO -------------------------------------------------------------------------
 
 function runRegister() {
   const form = document.getElementById("registerForm");
   const errorMsg = document.getElementById("registerError");
 
-  form.onsubmit = async (e) => {
+  form.onsubmit = (e) => {
     e.preventDefault();
 
     const name = document.getElementById("regName").value.trim();
@@ -77,9 +66,9 @@ function runRegister() {
     const username = document.getElementById("regUser").value.trim();
     const password = document.getElementById("regPass").value.trim();
 
-    const allUsers = await getAllUsers();
-    
-    // Validación correcta sobre todo el sistema
+    const allUsers = getRegisteredUsers();
+
+    // Validación global
     const exists = allUsers.some(
       u => u.email === email || u.username === username
     );
@@ -89,7 +78,7 @@ function runRegister() {
       return;
     }
 
-    // Crear nuevo usuario con id y gamification
+    // Crear nuevo usuario
     const newUser = {
       id: generateUserId(),
       name,
@@ -99,18 +88,15 @@ function runRegister() {
       gamification: { ...DEFAULT_GAMIFICATION }
     };
 
-    // Añadir SOLO a los registrados (localStorage)
-    const registered = getRegisteredUsers();
-    registered.push(newUser);
-    saveRegisteredUsers(registered);
+    allUsers.push(newUser);
+    saveRegisteredUsers(allUsers);
 
     location.href = "login.html";
   };
 }
 
 
-
-// FUNCIONES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// FUNCIONES AUXILIARES ------------------------------------------------------------
 
 // Logout limpio
 export function logout() {
@@ -127,7 +113,9 @@ function autoRedirectFromIndex() {
   }
 }
 
-// Inicializador
+
+// INIT -----------------------------------------------------------------------------
+
 window.onload = () => {
   const page = document.body.dataset.page;
 
