@@ -174,23 +174,11 @@ export function checkAndUnlockAchievements(user) {
 
 const TOAST_QUEUE = "achievementToastQueue";
 
-let toastIsShowing = false;
-
-// Obtener cola persistente
-function getToastQueue() {
-  return lsGet(TOAST_QUEUE, []);
-}
-
-// Guardar cola persistente
-function saveToastQueue(queue) {
-  lsSet(TOAST_QUEUE, queue);
-}
-
 // Se llama cuando se desbloquean logros
 export function showAchievementToast(achievements) {
   if (!Array.isArray(achievements) || achievements.length === 0) return;
 
-  const queue = getToastQueue();
+  const queue = lsGet(TOAST_QUEUE, []);
 
   achievements.forEach(a => {
     queue.push({
@@ -199,47 +187,31 @@ export function showAchievementToast(achievements) {
     });
   });
 
-  saveToastQueue(queue);
-
-  // Intentar reproducir inmediatamente
+  lsSet(TOAST_QUEUE, queue);
   playAchievementToasts();
 }
 
 // Se puede llamar al cargar cualquier página
 export function playAchievementToasts() {
-  if (toastIsShowing) return;
-
-  const queue = getToastQueue();
-  if (!queue || queue.length === 0) return;
+  const queue = lsGet(TOAST_QUEUE, []);
+  if (queue.length === 0) return;
 
   const toast = document.getElementById("achievement-toast");
-  if (!toast) return; // Página aún no lista o no tiene toast
+  if (!toast) return;
 
-  toastIsShowing = true;
+  const next = queue.shift();
+  lsSet(TOAST_QUEUE, queue);
 
-  const nextAch = queue.shift();
-  saveToastQueue(queue);
-
-  toast.textContent = `🎉 Nuevo logro desbloqueado: ${nextAch.name}`;
+  toast.textContent = `🎉 Nuevo logro desbloqueado: ${next.name}`;
   toast.classList.remove("hidden");
+  toast.classList.add("show");
 
-  // Mostrar
-  requestAnimationFrame(() => {
-    toast.classList.add("show");
-  });
-
-  // Ocultar después de 2.5s
   setTimeout(() => {
     toast.classList.remove("show");
-
-    setTimeout(() => {
-      toastIsShowing = false;
-      playAchievementToasts(); // Mostrar siguiente si existe
-    }, 300);
-
+    setTimeout(playAchievementToasts, 300);
   }, 2500);
-}
 
+}
 
 
 // SINCRONIZAR USUARIO ---------------------------------------------------------

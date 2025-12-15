@@ -2,7 +2,7 @@ export const ACHIEVEMENTS = [
     {
         id: "xp_10a",
         name: "Primer paso",
-        description: "Responde bien tu primera pregunta",
+        description: "Responde bien por primera vez",
         type: "XP",
         threshold: 10
     },
