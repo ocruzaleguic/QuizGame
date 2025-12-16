@@ -1,5 +1,5 @@
 
-/* -- ESTILOS GENERALES ----------------------------------------------------- */
+/* -- ESTILOS GENERALES ------------------------------------------------------------------ */
 
 body {
     font-family: "Poppins", Arial, sans-serif;
@@ -45,7 +45,7 @@ h1, h2 {
     text-shadow: 0 1px 2px rgba(0,0,0,0.15);
 }
 
-/* Inputs básicos */
+/* -- INPUTS BÁSICOS -- */
 
 label {
     font-size: 14px;
@@ -64,7 +64,7 @@ input {
     background: #fffaf4;
 }
 
-/* -- BOTONES --------------------------------------------------------------- */
+/* -- BOTONES -- */
 
 button {
     width: 100%;
@@ -93,7 +93,100 @@ button:disabled {
     box-shadow: none;
 }
 
-/* -- COMPONENTES ESPECÍFICOS ----------------------------------------------- */
+/* -- RADIO -- */
+
+/* Ocultar el radio */
+.area-item input[type="radio"],
+.quiz-option input[type="radio"] {
+    display: none;
+}
+
+/* Botón base */
+.area-item,
+.quiz-option {
+    padding: 14px;
+    border: 2px solid #d0b48e;
+    border-radius: 14px;
+    background: #fff7ee;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.12s ease, background 0.12s ease,
+                box-shadow 0.12s ease, border-color 0.12s ease;
+    user-select: none;
+}
+
+/* Hover */
+.area-item:hover,
+.quiz-option:hover {
+    background: #ffd69a;
+    border-color: #f58a25;
+    transform: scale(1.03);
+}
+
+/* Input Checked */
+.area-item input[type="radio"]:checked ~ .area-label-text,
+.quiz-option input[type="radio"]:checked ~ .area-label-text {
+    color: #8a4f0c;
+    font-weight: 700;
+}
+
+/* El navegador soporta :has() */
+.area-item:has(input[type="radio"]:checked),
+.quiz-option:has(input[type="radio"]:checked) {
+    background: #ffd69a;
+    border-color: #f58a25;
+    box-shadow: 0 0 10px rgba(250, 136, 18, 0.35);
+    transform: scale(1.03);
+}
+
+/* Fallback cuando no hay :has() */
+.area-item .area-label-text,
+.quiz-option .area-label-text {
+    display: inline-block;
+    width: 100%;
+}
+
+/* Animación de click */
+.area-item:active,
+.quiz-option:active {
+    animation: popSelect 0.12s ease;
+}
+@keyframes popSelect {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(1.09); } /* pequeño pop */
+    100% { transform: scale(1.03); } /* volver al estado hover */
+}
+
+/* Si el elemento ya está seleccionado y luego hace :active */
+.area-item:has(input[type="radio"]:checked):active,
+.quiz-option:has(input[type="radio"]:checked):active {
+    animation: popSelect 0.12s ease;
+}
+
+/* -- Feedback correcto -- */
+.quiz-option.correct {
+    background-color: rgba(46, 204, 113, 0.25) !important;
+    border-color: rgb(46, 204, 113) !important;
+    color: #1e7d46 !important;
+    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4) !important;
+    transform: scale(1.03) !important;
+}
+
+/* -- Feedback incorrecto -- */
+.quiz-option.incorrect {
+    background-color: rgba(231, 76, 60, 0.25) !important;
+    border-color: rgb(231, 76, 60) !important;
+    color: #8b2e2e !important;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.4) !important;
+    transform: scale(1.03) !important;
+}
+
+/* -- MENÚ ------------------------------------------------------------------------------- */
 
 .menu {
     text-align: center;
@@ -102,8 +195,6 @@ button:disabled {
     margin-bottom: 20px;
     color: #a46321;
 }
-
-/* -- GAMIFICACIÓN ---------------------------------------------------------- */
 
 .user-xp {
   display: flex;
@@ -119,9 +210,11 @@ button:disabled {
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
 }
 
+/* -- RANKING ---------------------------------------------------------------------------- */
 
 
-/* -- OPCIONES DEL AREA ----------------------------------------------------- */
+
+/* -- AREA SELECT ------------------------------------------------------------------------ */
 
 .current-area {
   font-size: 19px;
@@ -139,109 +232,7 @@ button:disabled {
 }
 
 
-
-/* -- RADIO -> BOTÓN --------------------------------------------------------- */
-
-/* Ocultar el radio visual */
-
-.area-item input[type="radio"],
-.quiz-option input[type="radio"] {
-    display: none;
-}
-
-/* Botón base */
-
-.area-item,
-.quiz-option {
-    padding: 14px;
-    border: 2px solid #d0b48e;
-    border-radius: 14px;
-    background: #fff7ee;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 600;
-    text-align: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
-    user-select: none;
-}
-
-/* Hover */
-
-.area-item:hover,
-.quiz-option:hover {
-    background: #ffd69a;
-    border-color: #f58a25;
-    transform: scale(1.03);
-}
-
-/* Cuando el input esté checked: mantener el mismo estilo que hover */
-/* Span dentro del label y lo seleccionamos */
-
-.area-item input[type="radio"]:checked ~ .area-label-text,
-.quiz-option input[type="radio"]:checked ~ .area-label-text {
-    color: #8a4f0c;
-    font-weight: 700;
-}
-
-/* Si el navegador soporta :has() */
-
-.area-item:has(input[type="radio"]:checked),
-.quiz-option:has(input[type="radio"]:checked) {
-    background: #ffd69a;
-    border-color: #f58a25;
-    box-shadow: 0 0 10px rgba(250, 136, 18, 0.35);
-    transform: scale(1.03);
-}
-
-/* Fallback cuando no hay :has() */
-
-.area-item .area-label-text,
-.quiz-option .area-label-text {
-    display: inline-block;
-    width: 100%;
-}
-
-/* Animación de click */
-.area-item:active,
-.quiz-option:active {
-    animation: popSelect 0.12s ease;
-}
-
-@keyframes popSelect {
-    0%   { transform: scale(1); }
-    50%  { transform: scale(1.09); } /* pequeño pop */
-    100% { transform: scale(1.03); } /* volver al estado hover/seleccionado */
-}
-
-/* Si el elemento ya está seleccionado y luego hace :active, la animación sigue siendo suave */
-
-.area-item:has(input[type="radio"]:checked):active,
-.quiz-option:has(input[type="radio"]:checked):active {
-    animation: popSelect 0.12s ease;
-}
-
-/* -- Feedback correcto/incorrecto ------------------------------------------- */
-
-.quiz-option.correct {
-    background-color: rgba(46, 204, 113, 0.25) !important;
-    border-color: rgb(46, 204, 113) !important;
-    color: #1e7d46 !important;
-    box-shadow: 0 0 10px rgba(46, 204, 113, 0.4) !important;
-    transform: scale(1.03) !important;
-}
-
-.quiz-option.incorrect {
-    background-color: rgba(231, 76, 60, 0.25) !important;
-    border-color: rgb(231, 76, 60) !important;
-    color: #8b2e2e !important;
-    box-shadow: 0 0 10px rgba(231, 76, 60, 0.4) !important;
-    transform: scale(1.03) !important;
-}
-
-/* -- PESTAÑA DE ACHIEVEMENTS ------------------------------------------------- */
+/* --- ACHIEVEMENTS ---------------------------------------------------------------------- */
 
 /* CONTENEDOR GENERAL */
 
@@ -287,8 +278,7 @@ button:disabled {
   font-size: 14px;
 }
 
-
-/* ESTADO BLOQUEADO --------------------------------- */
+/* LOGRO - ESTADO BLOQUEADO -- */
 
 .achievement-item.locked {
   color: #ddd;
@@ -306,7 +296,7 @@ button:disabled {
   display: none;
 }
 
-/* PROGRESO ----------------------------------------- */
+/* LOGRO - PROGRESO -- */
 
 .achievement-progress {
   position: absolute;
@@ -317,7 +307,7 @@ button:disabled {
   background: rgba(255, 255, 255, 0.18);
 }
 
-/* ESTADO DESBLOQUEADO ------------------------------ */
+/* LOGRO - ESTADO DESBLOQUEADO -- */
 
 .achievement-item.unlocked {
   background: rgba(0, 180, 90, 0.18);
@@ -331,6 +321,7 @@ button:disabled {
 }
 
 /* TOAST GLOBAL DE LOGROS */
+
 #achievement-toast {
   position: fixed;
   bottom: 20px;
@@ -349,14 +340,11 @@ button:disabled {
   max-width: 80%;
   z-index: 99999;
 }
-
 #achievement-toast.show {
   opacity: 1;
   transform: translateX(-50%) scale(1);
 }
-
 #achievement-toast.hidden {
   opacity: 0;
   pointer-events: none;
 }
-
