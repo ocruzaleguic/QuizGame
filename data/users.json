@@ -13,6 +13,17 @@
     },
     {
       "id": 2,
+      "name": "Priscila Asparrent",
+      "email": "priscila@example.com",
+      "username": "pri",
+      "password": "pri1",
+      "gamification": {
+        "XP": 0,
+        "achievements": []
+      }
+    },
+    {
+      "id": 3,
       "name": "Mauricio León",
       "email": "mauricio@example.com",
       "username": "mauricio",
@@ -23,7 +34,7 @@
       }
     },
     {
-      "id": 3,
+      "id": 4,
       "name": "Tamara Lisset Chicata",
       "email": "tamara@example.com",
       "username": "tamara",
@@ -34,7 +45,7 @@
       }
     },
     {
-      "id": 4,
+      "id": 5,
       "name": "Hikaru Ouchida Nakama",
       "email": "valerie@example.com",
       "username": "hikaru",

@@ -54,7 +54,11 @@ async function runLogin() {
 
 // REGISTRO -------------------------------------------------------------------------
 
-function runRegister() {
+async function runRegister() {
+
+  // Inicializar usuarios seed solo la primera vez
+  await initRegisteredUsersFromSeeds();
+
   const form = document.getElementById("registerForm");
   const errorMsg = document.getElementById("registerError");
 
