@@ -12,7 +12,7 @@ function runRanking() {
 
   const ranking = getRanking();
 
-  const tbody = document.getElementById("rankingBody");
+  const tbody = document.getElementById("rankingList");
   if (!tbody) return;
   tbody.innerHTML = "";
 
@@ -23,34 +23,35 @@ function runRanking() {
   let displayPosition = 0;
 
   ranking.forEach((user, index) => {
-    const tr = document.createElement("tr");
 
-    // Posición con empate
-    if (user.gamification.XP !== lastXP) {
-      displayPosition = index + 1;
-      lastXP = user.gamification.XP;
-    }
+  // Posición con empate
+  if (user.gamification.XP !== lastXP) {
+    displayPosition = index + 1;
+    lastXP = user.gamification.XP;
+  }
 
-    const posTd = document.createElement("td");
-    posTd.textContent = displayPosition;
+  const card = document.createElement("div");
+  card.classList.add("ranking-card");
 
-    // Username
-    const userTd = document.createElement("td");
-    userTd.textContent = user.username;
+  // Top 3 visual
+  if (displayPosition === 1) card.classList.add("gold");
+  else if (displayPosition === 2) card.classList.add("silver");
+  else if (displayPosition === 3) card.classList.add("bronze");
 
-    // XP
-    const xpTd = document.createElement("td");
-    xpTd.textContent = user.gamification.XP;
+  // Usuario logueado
+  if (loggedUser && user.id === loggedUser.id) {
+    card.classList.add("is-me");
+  }
 
+  card.innerHTML = `
+    <div class="rank-position">#${displayPosition}</div>
+    <div class="rank-user">${user.username}</div>
+    <div class="rank-xp">${user.gamification.XP} XP</div>
+  `;
 
-    // Resaltar usuario logueado --------------------
-    if (loggedUser && user.id === loggedUser.id) {
-      tr.classList.add("is-me");
-    }
+  tbody.appendChild(card);
+});
 
-    tr.append(posTd, userTd, xpTd);
-    tbody.appendChild(tr);
-  });
 }
 
 // Retornar array de Ranking ----------------------------
