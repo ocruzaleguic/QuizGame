@@ -7,7 +7,7 @@ runRanking();
 
 function runRanking() {
 
-  // SEGURIDAD 
+  // SEGURIDAD
   requireAuth();
 
   const ranking = getRanking();
@@ -18,12 +18,21 @@ function runRanking() {
 
   const loggedUser = lsGet("loggedUser");
 
+  // Manejo de empates
+  let lastXP = null;
+  let displayPosition = 0;
+
   ranking.forEach((user, index) => {
     const tr = document.createElement("tr");
 
-    // Posición
+    // Posición con empate
+    if (user.gamification.XP !== lastXP) {
+      displayPosition = index + 1;
+      lastXP = user.gamification.XP;
+    }
+
     const posTd = document.createElement("td");
-    posTd.textContent = index + 1;
+    posTd.textContent = displayPosition;
 
     // Username
     const userTd = document.createElement("td");
@@ -44,7 +53,7 @@ function runRanking() {
   });
 }
 
-// Retornar cadena de usuarios ordenada por XP de mayor a menor 
+// Retornar array de Ranking ----------------------------
 
 export function getRanking() {
 
