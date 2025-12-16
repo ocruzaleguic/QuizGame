@@ -44,7 +44,7 @@ function runRanking() {
   }
 
   card.innerHTML = `
-    <div class="rank-position">#${displayPosition}</div>
+    <div class="rank-position">${displayPosition}</div>
     <div class="rank-user">${user.username}</div>
     <div class="rank-xp">${user.gamification.XP} XP</div>
   `;
