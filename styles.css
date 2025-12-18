@@ -269,6 +269,60 @@ button:disabled {
 
 
 
+/* -- TIENDA ----------------------------------------------------------------------------- */
+
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 9px;
+  padding-bottom: 25px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+.store-item {
+  background: #ffffffee;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+}
+
+.store-item h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+.store-item p {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+.store-price {
+  margin-top: 0px;
+  font-weight: 700;
+  color: #d67b00;
+}
+.store-item button {
+  margin-top: auto;
+}
+
+/* Estados */
+.store-item.purchased {
+  opacity: 0.8;
+}
+.store-item.purchased button {
+  background: #ffbbbb;
+  cursor: not-allowed;
+}
+.store-item.insufficient button {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+
+
 /* -- RANKING ---------------------------------------------------------------------------- */
 
 /* -- ESTILO BASE -- */
@@ -374,6 +428,7 @@ button:disabled {
   overflow-y: auto;
   padding-right: 6px;
   padding-bottom: 6px;
+  
 }
 
 /* TARJETA BASE */
