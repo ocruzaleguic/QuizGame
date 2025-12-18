@@ -11,41 +11,30 @@
 <body data-page="menu">
 
     <div class="container">
-        <h2 class="menu">Menú Principal</h2>
 
-        <p id="currentArea" class="current-area"></p>
+        <h2 class="menu"> Menú Principal </h2>
+         <p id="currentArea" class="current-area"></p>
+        <div class="menu-group">
+            <p class="user-xp"> XP actual: <span id="xpValue">0</span></p>
+            <p class="user-coins"> Monedas: <span id="coinsValue">0</span></p>
+        </div>
 
-        
-        <p class="user-xp">
-            XP actual: <span id="xpValue">0</span>
-        </p>
-    
         <div class="menu-options scroll-hidden">
-  <button class="btn-primary" onclick="location.href='quiz.html'">
-            Play
-        </button>
 
-        <button class="btn-primary" onclick="location.href='seleccion-area.html'">
-            Cambiar área
-        </button>
- 
-        <button class="btn-primary" onclick="location.href='settings.html'">
-            Settings
-        </button>
-        
-        <button class="btn-primary" onclick="location.href='achievements.html'">
-            Logros
-        </button>
+            <button class="btn-primary" onclick="location.href='quiz.html'"> Play </button>
+            <button class="btn-primary" onclick="location.href='seleccion-area.html'"> Cambiar área </button>
+            <button class="btn-primary" onclick="location.href='store.html'"> Tienda </button>
 
-        <button class="btn-primary" onclick="location.href='ranking.html'">
-            Ranking
-        </button>
+            <div class="menu-group">
+                <button class="btn-secondary" onclick="location.href='achievements.html'"> Logros </button>
+                <button class="btn-secondary" onclick="location.href='ranking.html'"> Ranking </button>
+            </div>
 
-        <button class="btn-secondary" onclick="logout()">Logout</button>
-
+            <button class="btn-primary" onclick="location.href='settings.html'"> Settings </button>
+            <button class="btn-primary" onclick="logout()"> Logout </button>
 
         </div>
-      
+
     </div>
 
     <!-- SEGURIDAD -->
@@ -57,10 +46,14 @@
         document.addEventListener("DOMContentLoaded", () => {
             requireAuth();
 
-            // Mostrar XP
+            // Mostrar XP y coins
             const user = lsGet("loggedUser");
+
             const xpElement = document.getElementById("xpValue");
             xpElement.textContent = user?.gamification?.XP ?? 0;
+
+            const coinsElement = document.getElementById("coinsValue");
+            coinsElement.textContent = user?.gamification?.coins ?? 0;
 
             // Mostrar área seleccionada
             showSelectedArea("currentArea");
