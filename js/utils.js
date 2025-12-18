@@ -9,8 +9,6 @@ export const DEFAULT_GAMIFICATION = {
   achievements: []
 };
 
-
-
 // Get & Set genéricos
 export function lsGet(key, fallback = null) {
   const val = localStorage.getItem(key);
@@ -131,7 +129,7 @@ export function ensureGamification(user) {
 }
 
 
-// LOGROS DE XP ---------------------------------------------
+// LOGROS DE XP ---------------------
 
 export function checkAndUnlockAchievements(user) {
 
@@ -170,7 +168,7 @@ export function checkAndUnlockAchievements(user) {
   return unlockedNow;
 }
 
-// TOAST PARA LOGROS ----------------------------------------
+// TOAST PARA LOGROS ---------------
 
 const TOAST_QUEUE = "achievementToastQueue";
 
@@ -293,7 +291,8 @@ export function requireAuth() {
   }
 }
 
-// INICIALIZACIONES --------------------------------------------------
+
+// INICIALIZACIONES ------------------------------------------------------------
 
 // Auto-inicialización de los usuarios semilla
 

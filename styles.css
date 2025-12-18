@@ -350,7 +350,7 @@ button:disabled {
 
 .achievement-item {
   position: relative;
-  padding: 20px 18px;
+  padding: 16px 18px;
   border-radius: 12px;
   overflow: hidden;
   transition: all 0.25s ease-in-out;

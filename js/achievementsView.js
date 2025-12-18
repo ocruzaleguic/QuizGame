@@ -1,6 +1,12 @@
 import { ACHIEVEMENTS } from "./achievements.js";
 import { lsGet, requireAuth } from "./utils.js";
 
+// SEGURIDAD
+requireAuth();
+
+
+// ACHIEVEMENTS ------------------------------------------------------
+
 const listContainer = document.getElementById("achievementsList");
 
 init();
@@ -47,6 +53,3 @@ function init() {
   });
 
 }
-
-// Proteger pantalla
-requireAuth();

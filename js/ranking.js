@@ -1,14 +1,14 @@
 import { getRegisteredUsers, ensureGamification, lsGet, requireAuth } from "./utils.js";
 
+// SEGURIDAD
+requireAuth();
 
-// RANKING ------------------------------------------------------
+
+// RANKING ------------------------------------------------------------
 
 runRanking();
 
 function runRanking() {
-
-  // SEGURIDAD
-  requireAuth();
 
   const ranking = getRanking();
 
