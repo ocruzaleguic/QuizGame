@@ -1,11 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda</title>
+  <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body data-page="store">
-    
+
+  <div class="container">
+
+    <h2 class="menu">🛒 Tienda</h2>
+
+    <div class="menu-group">
+      <p class="user-coins"> Monedas: <span id="coinsValue">0</span></p>
+    </div>
+
+    <div id="storeItems" class="store-grid">
+      <!-- Items renderizados por JS -->
+    </div>
+
+    <button class="btn-primary" onclick="location.href='menu.html'"> Volver al menú </button>
+
+  </div>
+
+  <script type="module" src="./js/store.js"></script>
 </body>
 </html>
+ 
