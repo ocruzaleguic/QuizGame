@@ -1,4 +1,4 @@
-import { ACHIEVEMENTS } from "./achievements.js";
+import { ACHIEVEMENTS } from "../data/achievements.js";
 import { lsGet, requireAuth } from "./utils.js";
 
 // SEGURIDAD
