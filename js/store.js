@@ -18,46 +18,53 @@ function renderCoins() {
 }
 
 function renderStore() {
-    const user = lsGet("loggedUser");
-    ensureGamification(user);
+  const user = lsGet("loggedUser");
+  ensureGamification(user);
 
-    const container = document.getElementById("storeItems");
-    container.innerHTML = "";
+  const container = document.getElementById("storeItems");
+  container.innerHTML = "";
 
-    STORE_ITEMS.forEach(item => {
-        const owned = user.gamification.inventory.includes(item.id);
-        const canAfford = user.gamification.coins >= item.price;
+  STORE_ITEMS.forEach(item => {
+    const owned = user.gamification.inventory.includes(item.id);
+    const canAfford = user.gamification.coins >= item.price;
 
-        const card = document.createElement("div");
-        card.className = "store-item";
+    const card = document.createElement("div");
+    card.className = "store-item";
 
-        if (owned) card.classList.add("purchased");
-        else if (!canAfford) card.classList.add("insufficient");
+    if (owned) card.classList.add("purchased");
+    else if (!canAfford) card.classList.add("insufficient");
 
-        // RENDER DE ITEMS .............................
-        card.innerHTML = `
+    // Botón según estado
+    let buttonText = "Comprar";
+    if (owned) {
+      buttonText = "Comprado";
+    } else if (!canAfford) {
+      buttonText = "Monedas insuficientes";
+    }
 
-            <h3>${item.name}</h3>
+    // RENDER DE ITEMS ......................................
+    card.innerHTML = `
 
-            <p>${item.description}</p>
+      <h3>${item.name}</h3>
 
-            <p class="store-price">Precio: ${item.price} 🪙</p>
+      <p>${item.description}</p>
 
-            <button class="btn-primary">
-            ${owned ? "Comprado" : "Comprar"}
-            </button>
-        `;
-        // .............................................
+      <p class="store-price">Precio: ${item.price} 🪙</p>
 
-        const btn = card.querySelector("button");
+      <button class="btn-primary">
+      ${buttonText}
+      </button>
+    `;
+    // ......................................................
 
-        btn.disabled = owned || !canAfford;
+    const btn = card.querySelector("button");
+    btn.disabled = owned || !canAfford;
+    btn.onclick = () => buyItem(item);
 
-        btn.onclick = () => buyItem(item);
-
-        container.appendChild(card);
-    });
+    container.appendChild(card);
+  });
 }
+
 
 // FUNCIONES ÚTILES PARA STORE.JS -------------------------------------
 
