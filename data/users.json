@@ -8,7 +8,9 @@
       "password": "enrique1",
       "gamification": {
         "XP": 10,
-        "achievements": ["xp_10a", "xp_10b"]
+        "achievements": ["xp_10"],
+        "coins": 5,
+        "inventory": []
       }
     },
     {
@@ -18,8 +20,10 @@
       "username": "pri",
       "password": "pri1",
       "gamification": {
-        "XP": 20,
-        "achievements": ["xp_10a", "xp_10b"]
+        "XP": 30,
+        "achievements": ["xp_10", "xp_30"],
+        "coins": 15,
+        "inventory": []
       }
     },
     {
@@ -29,8 +33,10 @@
       "username": "mauricio",
       "password": "mauricio1",
       "gamification": {
-        "XP": 30,
-        "achievements": ["xp_10a", "xp_10b"]
+        "XP": 50,
+        "achievements": ["xp_10", "xp_30", "xp_50"],
+        "coins": 25,
+        "inventory": []
       }
     },
     {
@@ -40,8 +46,10 @@
       "username": "tamara",
       "password": "tamara1",
       "gamification": {
-        "XP": 40,
-        "achievements": ["xp_10a", "xp_10b", "xp_40"]
+        "XP": 70,
+        "achievements": ["xp_10", "xp_30", "xp_50", "xp_70"],
+        "coins": 35,
+        "inventory": []
       }
     },
     {
@@ -51,8 +59,10 @@
       "username": "hikaru",
       "password": "hikaru1",
       "gamification": {
-        "XP": 50,
-        "achievements": ["xp_10a", "xp_10b", "xp_40"]
+        "XP": 100,
+        "achievements": ["xp_10", "xp_30", "xp_50", "xp_70", "xp_100"],
+        "coins": 50,
+        "inventory": []
       }
     }
   ]

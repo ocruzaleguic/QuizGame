@@ -100,7 +100,7 @@ async function runRegister() {
 }
 
 
-// FUNCIONES AUXILIARES ------------------------------------------------------------
+// FUNCIONES AUXILIARES -------------------------------------------------------------
 
 // Logout limpio
 export function logout() {

@@ -6,7 +6,9 @@ import { ACHIEVEMENTS } from "./achievements.js";
 
 export const DEFAULT_GAMIFICATION = {
   XP: 0,
-  achievements: []
+  achievements: [],
+  coins: 0,
+  inventory: []
 };
 
 // Get & Set genéricos
