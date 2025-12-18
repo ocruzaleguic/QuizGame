@@ -1,4 +1,4 @@
-import { lsGet, lsSet, loadJSON, resetKeys, addXP } from "./utils.js";
+import { lsGet, lsSet, loadJSON, resetKeys, addXP, addCoins } from "./utils.js";
 
 // Redirección sin doble renderización
 if (!localStorage.getItem("selected_area")) {
@@ -110,6 +110,7 @@ function submitAnswer(q, questions) {
   if (selectedIndex === correctIndex) {
     addScore();
     addXP(10);
+    addCoins(5);
 
     // Feedback visual -----------------------------------------
 

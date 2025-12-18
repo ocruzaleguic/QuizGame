@@ -112,10 +112,10 @@ export function generateUserId() {
 
 // GAMIFICACIÓN Y UTILIDADES ---------------------------------------------------
 
+// Asegura gamificación del usuario
 export function ensureGamification(user) {
   if (!user) return user;
 
-  // Si no existe gamification, crear base completa
   if (!user.gamification || typeof user.gamification !== "object") {
     user.gamification = { ...DEFAULT_GAMIFICATION };
     return user;
@@ -129,6 +129,36 @@ export function ensureGamification(user) {
 
   return user;
 }
+
+
+// Agregar monedas al usuario
+export function addCoins(amount) {
+  if (typeof amount !== "number" || amount <= 0) {
+    console.warn("addCoins: amount inválido", amount);
+    return;
+  }
+
+  // Obtener usuario logueado
+  const loggedUser = lsGet("loggedUser");
+  if (!loggedUser) {
+    console.warn("addCoins: no hay usuario logueado");
+    return;
+  }
+  ensureGamification(loggedUser);
+
+  // Sumar monedas
+  loggedUser.gamification.coins += amount;
+
+  // Guardar usuario actualizado
+  lsSet("loggedUser", loggedUser);
+
+  // Sincronizar con usuarios registrados
+  syncUser(loggedUser);
+
+  return loggedUser.gamification.coins;
+}
+
+
 
 
 // LOGROS DE XP ---------------------
